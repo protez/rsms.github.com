@@ -5,3 +5,4 @@ pygments: false
 lsi: false
 permalink: /:year/:month/:day/:title.html
 markdown: rdiscount
+paginate: 10

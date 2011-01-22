@@ -40,29 +40,30 @@
 	<script>
 	  // Preload font files and finally patch CSS with custom fonts.
 	  // We do this to avoid displaying unreadable text while waiting for data.
-    var queue = ['http://hunch.se/style/fonts/mplus-1m-light.ttf',
-                 'http://hunch.se/style/fonts/mplus-2p-light.ttf'];
-    function fetch_next() {
+    function finalizer() {
+  	  var n = document.createElement('link');
+  	  n.href = '/res/screen-later.css';
+  	  n.media = 'screen, projection';
+  	  n.rel = 'stylesheet';
+  	  n.type = 'text/css';
+  	  document.getElementsByTagName('head').item(0).appendChild(n);
+    }
+    var countdown = 1;
+    function fetch(url) {
 	    try {
-	      var url = queue.pop();
-	      if (url) {
-  	      var req = new XMLHttpRequest();
-  	      req.open('GET', url, true);
-  	      req.onreadystatechange = function () { if (req.readyState == 4) {
-  	        fetch_next();
-  	      }};
-  	      req.send();
-	      } else {
-      	  var n = document.createElement('link');
-      	  n.href = '/res/screen-later.css';
-      	  n.media = 'screen, projection';
-      	  n.rel = 'stylesheet';
-      	  n.type = 'text/css';
-      	  document.getElementsByTagName('head').item(0).appendChild(n);
-	      }
+	      var req = new XMLHttpRequest();
+	      req.open('GET', url, true);
+	      req.onreadystatechange = function () { if (req.readyState == 4) {
+  	      if (--countdown === 0)
+  	        finalizer()
+	      }};
+	      req.send();
       } catch (e) {}
     }
-  	//setTimeout(fetch_next, 100);
-  	fetch_next();
+    fetch('http://hunch.se/style/fonts/mplus-1m-light.ttf');
+    fetch('http://hunch.se/style/fonts/DroidSerif-Regular.woff');
+    fetch('http://hunch.se/style/fonts/DroidSerif-Italic.woff');
+    fetch('http://hunch.se/style/fonts/DroidSerif-Bold.woff');
+  	if (--countdown === 0) finalizer();
 	</script>
 </html>

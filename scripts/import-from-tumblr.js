@@ -2,7 +2,6 @@ var HOSTNAME = 'blog.hunch.se'
 var DST_DIR = '/Users/rasmus/blog/_posts'
 var POST_LAYOUT = 'post'
 var DRY_RUN = false
-var URL_MAP_PATH = '/Users/rasmus/blog/tumblr-urls.json'
 var TAGS_FILTER = function (tag) { return true; }
 var TAGS_MAPPER = function (tag) { return tag.toLowerCase(); }
 
@@ -42,16 +41,10 @@ var BODY = function (post) {
   }
 }
 
-// for (tumblr -> jekyll) redirects
-var url_map = {};
-
 // called when a post is about to be written. Can be used to modify some
 // properties of the post or just simply log a message. Return a false value to
 // skip the post.
 var WRITE_POST = function (post, dst_path, contents_to_be_written) {
-  if (url_map)
-    url_map[post.url] = post.filename
-  //console.log(url_map)
   return true
 }
 
@@ -82,9 +75,9 @@ function import_posts(offset, final_callback) {
   var callee = arguments.callee
   var self = this;
   
-  var path = '/api/read/json?num=50&filter=none&start='+(offset || '0')
+  var path = '/api/read/json?num=20&filter=none&start='+(offset || '0')
   console.error('Requesting %s', path)
-  var request = tumblr.request('GET', path, {'host': HOSTNAME})
+  var request = tumblr.request('GET', path, {'Host': HOSTNAME})
   request.end();
   request.on('response', function (response) {
     var response_body = '';
@@ -104,26 +97,38 @@ function import_posts(offset, final_callback) {
           console.error('ERROR: ' + msg + '\n' + response_body);
         }
         return;
-      } else if (status_class !== '2' || !response_body ||
-                 response_body.length === 0 ||
-                 response_body.trimRight().substr(-2) !== '};') {
-        retry_delay = Math.min(retry_delay ? retry_delay * 1.6
-                                           : retry_delay_initial,
-                               retry_delay_max);
-        console.error('Tumblr fail (HTTP %d) -- retrying in %d seconds...',
-                      response.statusCode, Math.round(retry_delay/1000.0))
-        setTimeout(function() { callee.apply(self, args) }, retry_delay);
-        return;
       }
       retry_delay = 0;
       response_body = response_body.replace(/^var tumblr_api_read = /g, '');
       response_body = response_body.replace(/[^}]+$/g, '');
-      var s = JSON.parse(response_body);
+      var s, parse_error;
+      try {
+        s = JSON.parse(response_body);
+      } catch(e) {
+        console.error('Warning: Failed to parse JSON: '+e)
+        parse_error = e;
+      }
+      if (!s || parse_error || status_class !== '2' || !response_body ||
+          response_body.length === 0) {
+        retry_delay = Math.min(retry_delay ? retry_delay * 1.6
+                                           : retry_delay_initial,
+                               retry_delay_max);
+        console.error('Tumblr fail (HTTP %d) %s Retrying in %d seconds...',
+                      response.statusCode, parse_error ? parse_error : "",
+                      Math.round(retry_delay/1000.0))
+        setTimeout(function() { callee.apply(self, args) }, retry_delay);
+        return;
+      }
       var num_posts = s.posts.length
-      var next_offset = parseInt(s['posts-start']) + num_posts
-      if (next_offset > parseInt(s['posts-total']))
+      var posts_start = parseInt(s['posts-start']);
+      var posts_total = parseInt(s['posts-total']);
+      var next_offset = posts_start + num_posts;
+      if (next_offset >= posts_total)
         next_offset = 0;
-      //console.log(next_offset)
+      //console.log("num_posts => %j", num_posts)
+      //console.log("posts_start => %j", posts_start)
+      //console.log("posts_total => %j", posts_total)
+      //console.log("next_offset => %j", next_offset)
       //console.log(s)
       s.posts.forEach(function (post) {
         var fnext = post.format == 'markdown' ? '.md' : '.html'
@@ -176,9 +181,10 @@ function import_posts(offset, final_callback) {
 
       // schedule next
       if (next_offset > 0 && !DRY_RUN) {
-        console.log('import_posts(next_offset, final_callback);')
+        //console.log('import_posts(next_offset, final_callback);')
         import_posts(next_offset, final_callback);
       } else if (final_callback) {
+        console.log('[DRY_RUN] import_posts(%d, final_callback);', next_offset)
         final_callback();
       }
     })
@@ -186,10 +192,8 @@ function import_posts(offset, final_callback) {
 }
 
 if (require.main == module) {
-  import_posts(function (err) {
+  import_posts(260, function (err) {
     if (err) return console.error(err);
-    if (url_map)
-      fs.writeFileSync(URL_MAP_PATH, JSON.stringify(url_map), 'utf8');
     console.log('Done.')
   });
 }

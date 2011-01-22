@@ -16,40 +16,40 @@
 
 @font-face {
 	font-family: 'Droid Serif';
-	src: url('http://hunch.se/style/fonts/DroidSerif-Regular-webfont.eot');
-	src: local('☺'), url('http://hunch.se/style/fonts/DroidSerif-Regular-webfont.woff') format('woff'),
-	     url('http://hunch.se/style/fonts/DroidSerif-Regular-webfont.ttf') format('truetype'),
-	     url('http://hunch.se/style/fonts/DroidSerif-Regular-webfont.svg#webfont5XtKyzGt') format('svg');
+	src: url('http://hunch.se/style/fonts/DroidSerif-Regular.eot');
+	src: local('☺'), url('http://hunch.se/style/fonts/DroidSerif-Regular.woff') format('woff'),
+	     url('http://hunch.se/style/fonts/DroidSerif-Regular.ttf') format('truetype'),
+	     url('http://hunch.se/style/fonts/DroidSerif-Regular.svg#webfont5XtKyzGt') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Droid Serif';
-	src: url('http://hunch.se/style/fonts/DroidSerif-Italic-webfont.eot');
-	src: local('☺'), url('http://hunch.se/style/fonts/DroidSerif-Italic-webfont.woff') format('woff'),
-	     url('http://hunch.se/style/fonts/DroidSerif-Italic-webfont.ttf') format('truetype'),
-	     url('http://hunch.se/style/fonts/DroidSerif-Italic-webfont.svg#webfontK4uAlNrc') format('svg');
+	src: url('http://hunch.se/style/fonts/DroidSerif-Italic.eot');
+	src: local('☺'), url('http://hunch.se/style/fonts/DroidSerif-Italic.woff') format('woff'),
+	     url('http://hunch.se/style/fonts/DroidSerif-Italic.ttf') format('truetype'),
+	     url('http://hunch.se/style/fonts/DroidSerif-Italic.svg#webfontK4uAlNrc') format('svg');
 	font-weight: normal;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: 'Droid Serif';
-	src: url('http://hunch.se/style/fonts/DroidSerif-Bold-webfont.eot');
-	src: local('☺'), url('http://hunch.se/style/fonts/DroidSerif-Bold-webfont.woff') format('woff'),
-	     url('http://hunch.se/style/fonts/DroidSerif-Bold-webfont.ttf') format('truetype'),
-	     url('http://hunch.se/style/fonts/DroidSerif-Bold-webfont.svg#webfontg2CzGQfw') format('svg');
+	src: url('http://hunch.se/style/fonts/DroidSerif-Bold.eot');
+	src: local('☺'), url('http://hunch.se/style/fonts/DroidSerif-Bold.woff') format('woff'),
+	     url('http://hunch.se/style/fonts/DroidSerif-Bold.ttf') format('truetype'),
+	     url('http://hunch.se/style/fonts/DroidSerif-Bold.svg#webfontg2CzGQfw') format('svg');
 	font-weight: bold;
 	font-style: normal;
 }
 
-@font-face {
+/*@font-face {
 	font-family: 'Droid Serif';
-	src: url('http://hunch.se/style/fonts/DroidSerif-BoldItalic-webfont.eot');
-	src: local('☺'), url('http://hunch.se/style/fonts/DroidSerif-BoldItalic-webfont.woff') format('woff'),
-	     url('http://hunch.se/style/fonts/DroidSerif-BoldItalic-webfont.ttf') format('truetype'),
-	     url('http://hunch.se/style/fonts/DroidSerif-BoldItalic-webfont.svg#webfontma7TYoAP') format('svg');
+	src: url('http://hunch.se/style/fonts/DroidSerif-BoldItalic.eot');
+	src: local('☺'), url('http://hunch.se/style/fonts/DroidSerif-BoldItalic.woff') format('woff'),
+	     url('http://hunch.se/style/fonts/DroidSerif-BoldItalic.ttf') format('truetype'),
+	     url('http://hunch.se/style/fonts/DroidSerif-BoldItalic.svg#webfontma7TYoAP') format('svg');
 	font-weight: bold;
 	font-style: italic;
-}
+}*/
