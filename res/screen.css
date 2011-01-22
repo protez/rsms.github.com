@@ -1,14 +1,7 @@
-/*@font-face {
-  font-family: 'M+ 2c';
-  font-style: normal;
-  font-weight: bold;
-  src: local('M+ 2c'), local('mplus-2c-medium'),
-       url('http://hunch.se/style/fonts/mplus-2c-medium.ttf') format('truetype');
-}*/
 /* Base */
 * { margin:0; padding:0; font-family:inherit; }
 body {
-  background:white; color:#030303;
+  background:white; color:#222;
   font:13px 'Droid Serif', georgia, serif;
   line-height:1.4;
   font-weight: lighter;
@@ -29,7 +22,8 @@ h1,h2,h3,h4 {
   text-rendering: optimizelegibility;
 }
 h1 { font-size: 18px; }
-h2,h3,h4,h5,h6 { font-size: 14px; }
+h2 { font-size: 16px; }
+h3,h4,h5,h6 { font-size: 14px; }
 h3 { color:#666; }
 h4,h5,h6 { color:#888; }
 h5,h6 { font-size:12px; }
@@ -104,6 +98,11 @@ div.post {
   page-break-before: always;
 }
   div.post h1:first-child { margin-top:0; }
+  div.post time {
+    display:block;
+    margin-bottom:1em;
+    color:#999;
+  }
   div.post div.body {}
     div.post div.body img { max-width:100%; }
     div.post div.body *[align=right] {
@@ -126,56 +125,7 @@ div.post {
       color:#302400;
       text-decoration:none;
     }
-    div.post div.body p.redirect-message {
-      position:absolute; left:0; top:0; right:0; bottom:0;
-      margin:0; padding:0;
-      z-index:1336; /* #tumblr_controls lives at 1337 */
-      font: 2.2em 'Helvetica Neue', helvetica, sans-serif;
-      text-align: center;
-      padding-top: 4em;
-      color: #FF531A;
-      background-color: #fff; background-color: rgba(255,255,255, 0.9);
-    }
-    div.post div.body.not-found {
-      min-height:550px;
-      background: transparent
-          url(http://static.tumblr.com/9njdies/9url8w7s4/404.png)
-          no-repeat scroll center bottom;
-    }
-      div.post div.body.not-found ol.search-results {
-        background-color: #fff;
-        list-style:none; padding-bottom:1em;
-      }
-        div.post div.body.not-found ol.search-results li {
-          margin-left:0; padding:1em 0;
-          border-top:1px solid #ddd;
-        }
-        div.post div.body.not-found ol.search-results .date {
-          display:inline-block; float:right;
-          padding-left:2em;
-          color: #999;
-        }
-        div.post div.body.not-found p.text-body,
-            div.post div.body.not-found p.text-body-overlay {
-          margin-top:0.5em;
-          height: 40px;
-          overflow: hidden;
-          font:9px 'lucida grande', 'tahoma', sans-serif;
-          whitespace: pre;
-          color: #999;
-          z-index:1335;
-          margin-bottom:0;
-          margin-top:4px !important;
-        }
-        div.post div.body.not-found p.text-body-overlay {
-          position:relative; top:4px; left:0;
-          background: transparent
-      url(http://static.tumblr.com/9njdies/Nbtl8w9im/fade-to-white.png)
-              repeat-x scroll left bottom;
-          z-index:1336;
-          margin-bottom:-40px;
-        }
-  div.post strong { font-weight:inherit; background:#FBF4B1; }
+  /*div.post strong { font-weight:inherit; background:#FBF4B1; }*/
   div.post li { margin-left: 2em; margin-bottom:0.3em; }
   div.post ul > li { margin-left:1.4em; }
   div.post blockquote {

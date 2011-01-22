@@ -1,21 +1,29 @@
 <!DOCTYPE HTML>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Rasmus Andersson {% if page.title %}&mdash; {{ page.title }} {% endif %}</title>
-		<meta name="description" content="Ramblings by Rasmus Andersson">
-		<link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
-		<link href="/res/screen.css" media="screen, projection" rel="stylesheet" 
-		      type="text/css">
-	</head>
-	<body>
-	  <header>
-		  <h1><a href="/">Rasmus Andersson</a></h1>
-		</header>
+  <head>
+    <meta charset="utf-8">
+    <title>Rasmus Andersson {% if page.title %}&mdash; {{ page.title }} {% endif %}</title>
+    <meta name="description" content="Ramblings by Rasmus Andersson">
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href="/res/screen.css" media="screen, projection" rel="stylesheet" 
+          type="text/css">
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Rasmus Andersson</a></h1>
+    </header>
     <div class="wrapper">
       {{ content }}
     </div>
-		<footer>
+    {% if paginator.page %}
+    <div id="paginator">
+      <a href="/page{{ paginator.next_page }}/">Older entries</a>
+      {% if paginator.previous_page %}
+      <a href="/page{{ paginator.previous_page }}/">Newer entries</a>
+      {% endif %}
+    </div>
+    {% endif %}
+    <footer>
       <a href="/" title="Home">Home</a> &mdash;
       <a href="/about/" title="About the author and site">About</a> &mdash;
       <a href="/archive/" title="Archived writing">Archive</a> &mdash;
@@ -34,36 +42,36 @@
         </div>
       </form>
       <script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
-		</footer>
-		{% include analytics.html %}
-	</body>
-	<script>
-	  // Preload font files and finally patch CSS with custom fonts.
-	  // We do this to avoid displaying unreadable text while waiting for data.
-    function finalizer() {
-  	  var n = document.createElement('link');
-  	  n.href = '/res/screen-later.css';
-  	  n.media = 'screen, projection';
-  	  n.rel = 'stylesheet';
-  	  n.type = 'text/css';
-  	  document.getElementsByTagName('head').item(0).appendChild(n);
-    }
-    var countdown = 1;
-    function fetch(url) {
-	    try {
-	      var req = new XMLHttpRequest();
-	      req.open('GET', url, true);
-	      req.onreadystatechange = function () { if (req.readyState == 4) {
-  	      if (--countdown === 0)
-  	        finalizer()
-	      }};
-	      req.send();
-      } catch (e) {}
-    }
-    fetch('http://hunch.se/style/fonts/mplus-1m-light.ttf');
-    fetch('http://hunch.se/style/fonts/DroidSerif-Regular.woff');
-    fetch('http://hunch.se/style/fonts/DroidSerif-Italic.woff');
-    fetch('http://hunch.se/style/fonts/DroidSerif-Bold.woff');
-  	if (--countdown === 0) finalizer();
-	</script>
+    </footer>
+    {% include analytics.html %}
+    <script>
+      // Preload font files and finally patch CSS with custom fonts.
+      // We do this to avoid displaying unreadable text while waiting for data.
+      function finalizer() {
+        var n = document.createElement('link');
+        n.href = '/res/screen-later.css';
+        n.media = 'screen, projection';
+        n.rel = 'stylesheet';
+        n.type = 'text/css';
+        document.getElementsByTagName('head').item(0).appendChild(n);
+      }
+      var countdown = 1;
+      function fetch(url) {
+        try {
+          var req = new XMLHttpRequest();
+          req.open('GET', url, true);
+          req.onreadystatechange = function () { if (req.readyState == 4) {
+            if (--countdown === 0)
+              finalizer()
+          }};
+          req.send();
+        } catch (e) {}
+      }
+      fetch('http://hunch.se/style/fonts/mplus-1m-light.ttf');
+      fetch('http://hunch.se/style/fonts/DroidSerif-Regular.woff');
+      fetch('http://hunch.se/style/fonts/DroidSerif-Italic.woff');
+      fetch('http://hunch.se/style/fonts/DroidSerif-Bold.woff');
+      if (--countdown === 0) finalizer();
+    </script>
+  </body>
 </html>
