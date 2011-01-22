@@ -6,64 +6,58 @@ date: 2010-09-17 14:48:00 UTC
 title: Tumblr theme
 ---
 
-<p>By popular demand I am releasing the Tumblr theme I&#8217;ve created for this site. You can grab the source at <a href="http://github.com/rsms/tumblr-theme-hunch">github.com/rsms/tumblr-theme-hunch</a>. Please respect the MIT license (and remember to make love, not war).</p>
+By popular demand I am releasing the Tumblr theme I've created for this site. You can grab the source at [github.com/rsms/tumblr-theme-hunch](http://github.com/rsms/tumblr-theme-hunch). Please respect the MIT license (and remember to make love, not war).
 
-<p><strong>Disclaimer:</strong> <em>You need to modify the theme before using it, since I have my Google Analytics and 404 redirect magic embedded in the code</em>.</p>
+**Disclaimer:** *You need to modify the theme before using it, since I have my Google Analytics and 404 redirect magic embedded in the code*.
 
-<p>Grab the source:</p>
+Grab the source:
 
-<pre><code>#!sh
-git clone git://github.com/rsms/tumblr-theme-hunch.git
-open -t tumblr-theme-hunch/index.html
-</code></pre>
+    #!sh
+    git clone git://github.com/rsms/tumblr-theme-hunch.git
+    open -t tumblr-theme-hunch/index.html
 
-<p>Make your modifications to the theme code (like replacing the Google Analytics code and Disqus comments), then copy all text and paste it into &#8220;Theme&#8221; on <a href="http://www.tumblr.com/customize">your Tumblr customization web site</a>.</p>
+Make your modifications to the theme code (like replacing the Google Analytics code and Disqus comments), then copy all text and paste it into "Theme" on [your Tumblr customization web site](http://www.tumblr.com/customize).
 
 <!-- more -->
 
-<h2>Disqus comments</h2>
+## Disqus comments
 
-<p>I use <a href="http://disqus.com/">Disqus</a> for comments. If you like to make use of Disqus you need to change a few bits. Disabling Disqus is also an option.</p>
+I use [Disqus](http://disqus.com/) for comments. If you like to make use of Disqus you need to change a few bits. Disabling Disqus is also an option.
 
-<p>Locate the code between:</p>
+Locate the code between:
 
-<pre><code>&lt;!-- start disqus --&gt;
-about 50 lines of code here...
-&lt;!-- end disqus --&gt;
-</code></pre>
+    <!-- start disqus -->
+    about 50 lines of code here...
+    <!-- end disqus -->
 
-<p>If you want to disable Disqus comments, simply remove the code. But if you want to use Disqus, make a note of your <a href="http://disqus.com/comments/settings/">Disqus channel name</a> (mine is &#8220;hunch&#8221;) and modify the following line to match your channel name:</p>
+If you want to disable Disqus comments, simply remove the code. But if you want to use Disqus, make a note of your [Disqus channel name](http://disqus.com/comments/settings/) (mine is "hunch") and modify the following line to match your channel name:
 
-<pre><code>var disqus_shortname = 'hunch';
-</code></pre>
+    var disqus_shortname = 'hunch';
 
-<h2>Disabling syntax highlighting</h2>
+## Disabling syntax highlighting
 
-<p>Another thing this theme makes use of is <a href="http://code.google.com/p/google-code-prettify/">Google Prettify</a>, enabling syntax highlighting of computer code. If you do not wish to have all preformatted text highlighted, locate the following line:</p>
+Another thing this theme makes use of is [Google Prettify](http://code.google.com/p/google-code-prettify/), enabling syntax highlighting of computer code. If you do not wish to have all preformatted text highlighted, locate the following line:
 
-<pre><code>// Comment out or remove the following to disable Prettify
-</code></pre>
+    // Comment out or remove the following to disable Prettify
 
-<p>And remove the statement which follows that line (a call to <code>loadScriptAsync</code>).</p>
+And remove the statement which follows that line (a call to `loadScriptAsync`).
 
-<h2>Google Analytics</h2>
+## Google Analytics
 
-<p>The theme code comes pre-configured for my Google Analytics account and unless you steal my domain name it&#8217;s useless to you (it will even make your site slower), so there are basically two options here: configure your own Analytics account or disable it.</p>
+The theme code comes pre-configured for my Google Analytics account and unless you steal my domain name it's useless to you (it will even make your site slower), so there are basically two options here: configure your own Analytics account or disable it.
 
-<p>Locate the <code>&lt;script&gt;</code> tag which include the following line:</p>
+Locate the `<script>` tag which include the following line:
 
-<pre><code>var _gaq = _gaq || [];
-</code></pre>
+    var _gaq = _gaq || [];
 
-<p>Remove the whole <code>&lt;script&gt;</code> block or replace it with your own Analytics &#8220;tracking code&#8221;.</p>
+Remove the whole `<script>` block or replace it with your own Analytics "tracking code".
 
-<h2>Redirection from old URLs</h2>
+## Redirection from old URLs
 
-<p>As I&#8217;ve migrated many posts from my previous blog I have a need to support and redirect old URLs. This is accomplished using code outside of Tumblr, which is lazily loaded. <em>You want to remove this code</em> (or possibly provide the URL to a redirect script of your own).</p>
+As I've migrated many posts from my previous blog I have a need to support and redirect old URLs. This is accomplished using code outside of Tumblr, which is lazily loaded. *You want to remove this code* (or possibly provide the URL to a redirect script of your own).
 
-<p>Locate the following line:</p>
+Locate the following line:
 
-<pre><code>// Comment-out or remove the following to disable redirection
-</code></pre>
+    // Comment-out or remove the following to disable redirection
 
-<p>And remove the statement which follows that line (a call to <code>loadScriptAsync</code>).</p>
+And remove the statement which follows that line (a call to `loadScriptAsync`).

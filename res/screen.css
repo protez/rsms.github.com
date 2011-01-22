@@ -21,8 +21,8 @@ h1,h2,h3,h4 {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizelegibility;
 }
-h1 { font-size: 18px; }
-h2 { font-size: 16px; }
+h1 { font-size: 16px; }
+h2 { font-size: 18px; }
 h3,h4,h5,h6 { font-size: 14px; }
 h3 { color:#666; }
 h4,h5,h6 { color:#888; }
@@ -46,46 +46,46 @@ h1 > a, h2 > a, h3 > a, h4 > a, h5 > a, h6 > a, h1 > a:hover,
   background-color:transparent !important;
 }
 
-/* head */
-#head {
-  border-bottom: 1px dashed #ddd;
+/* header */
+header {
+  display: block;
+  border-bottom: 1px solid #eee;
   /*margin-left:-999em; margin-right:-999em;
   padding-left:999em; padding-right:999em;*/
   margin-left:-999em; padding-left:999em;
   padding-top:1em;
-  padding-bottom:1em;
+  padding-bottom:0;
 }
-  #head h1 { font-size: 2em; margin:0; }
-    #head h1 a {
+  header h1 {}
+    header h1 a {
       display:block;
-      background: 
-          url(http://static.tumblr.com/9njdies/Crol8jema/signature.png)
-          no-repeat scroll top left;
+      background: url(signature.png) no-repeat scroll top left;
       width: 81px;
       height: 31px;
       margin-left:-2px;
+      margin-top:-20px;
     }
-      #head h1 a span { display:none; }
-  #head p.description {
+      header h1 a span { display:none; }
+  header p.description {
     font:9px 'lucida grande', 'tahoma', sans-serif;
     color: #ccc;
   }
-  #head ul.navigation {
+  header ul.navigation {
     text-align: left;
     float: right;
   }
-  #head ul.navigation li {
+  header ul.navigation li {
     display: inline-block;
     list-style: none;
     margin-left: 1em;
   }
-  #head ul.navigation li:first-child { margin-left: 0; }
-  #head ul.navigation li a {
+  header ul.navigation li:first-child { margin-left: 0; }
+  header ul.navigation li a {
     color: #888;
     text-decoration: none;
     font-size: 11px;
   }
-  #head ul.navigation li a:hover { color: #000; }
+  header ul.navigation li a:hover { color: #000; }
 
 /* main */
 #main { margin-bottom: 3em; }  

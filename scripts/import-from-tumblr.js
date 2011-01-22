@@ -75,7 +75,7 @@ function import_posts(offset, final_callback) {
   var callee = arguments.callee
   var self = this;
   
-  var path = '/api/read/json?num=20&filter=none&start='+(offset || '0')
+  var path = '/api/read/json?filter=none&num=10&start='+(offset || '0')
   console.error('Requesting %s', path)
   var request = tumblr.request('GET', path, {'Host': HOSTNAME})
   request.end();
@@ -192,7 +192,7 @@ function import_posts(offset, final_callback) {
 }
 
 if (require.main == module) {
-  import_posts(260, function (err) {
+  import_posts(0, function (err) {
     if (err) return console.error(err);
     console.log('Done.')
   });
