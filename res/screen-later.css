@@ -53,3 +53,7 @@
 	font-weight: bold;
 	font-style: italic;
 }*/
+
+body {
+  font-family:'Droid Serif', georgia, serif;
+}
