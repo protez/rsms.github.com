@@ -3,7 +3,7 @@ layout: post
 category: music
 tumblr_id: 1261110987
 date: 2010-10-07 06:58:15 UTC
-title: A new favorite: Bombay by El Guincho
+title: "A new favorite: Bombay by El Guincho"
 ---
 
 <iframe src="http://player.vimeo.com/video/15247292?byline=0&amp;portrait=0&amp;color=ffffff" width="640" height="480" frameborder="0"></iframe>
