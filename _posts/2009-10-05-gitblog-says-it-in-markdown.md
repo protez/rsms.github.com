@@ -14,12 +14,10 @@ For example, have a look at [this post from yesterday](http://blog.hunch.se/2009
 
 The *[Mardown Extra](http://michelf.com/projects/php-markdown/extra/)* flavour is used, adding structures like tables and header id tags. There are also a few Gitblog specific things, most notably the support for *code-blocks* (syntax highlight). Language can be explicitly specified using a *shebang*:
 
-    #!text
     #!language
     actual code...
 
 To get this feature, simply perform a `git pull` in your gitblog directory:
 
-    #!text
     cd path/to/my/blog/gitblog
     git pull

@@ -21,12 +21,10 @@ h1,h2,h3,h4 {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizelegibility;
 }
-h1 { font-size: 16px; }
+h1,h3 { font-size: 16px; }
 h2 { font-size: 18px; }
-h3,h4,h5,h6 { font-size: 14px; }
-h3 { color:#666; }
-h4,h5,h6 { color:#888; }
-h5,h6 { font-size:12px; }
+h4 { font-size: 14px; color:#666; }
+h5,h6 { font-size:12px; color:#888; }
 
 a { text-decoration:none; }
 a:link, a:active { color:#316d96; }
@@ -88,7 +86,47 @@ header {
   header ul.navigation li a:hover { color: #000; }
 
 /* main */
-#main { margin-bottom: 3em; }  
+#main { margin-bottom: 3em; }
+
+/* main content */
+body div.content {}
+  body div.content *[align=right] { margin-left:1em; margin-bottom:1em; }
+  body div.content img { max-width:100%; }
+
+  /*div.post strong { font-weight:inherit; background:#FBF4B1; }*/
+  body div.content li { margin-left: 2em; margin-bottom:0.3em; }
+  body div.content ul > li { margin-left:1.4em; }
+  body div.content blockquote {
+      padding-left:30px;
+      background: transparent 
+          url(http://static.tumblr.com/sajzoro/2pUkqr1t1/aster.png) 
+          no-repeat scroll 0 0;
+      font-style:italic;
+    }
+    /*div.post blockquote > p {
+      padding-left:0.6em;
+      border-left:0.4em solid #ddd;
+    }*/
+  body div.content div.quotation blockquote { margin-left:-30px; }
+  body div.content pre {
+    font-family: 'M+ 1m', monospace;
+    background-color:#eee;
+    padding:0.4em 1em;
+    border-left:2px solid #ddd;
+  }
+  body div.content code {
+    font-family: 'M+ 1m', monospace;
+    background-color:#eee;
+    padding:0 0.1em;
+  }
+  body div.content pre > code {
+    padding:0; background-color:transparent;
+  }
+  body div.content :target { background:#fe0; }
+  body div.content sup:target a { padding:2px 5px; }
+  body div.content div.footnotes li { color:#999; }
+  body div.content div.footnotes li:target { background:#ffc; color:inherit; }
+
 
 /* posts */
 div.post {
@@ -104,10 +142,6 @@ div.post {
     color:#999;
   }
   div.post div.body {}
-    div.post div.body img { max-width:100%; }
-    div.post div.body *[align=right] {
-      margin-left:1em; margin-bottom:1em;
-    }
     div.post div.body > p.read-more { text-align:center; }
     div.post div.body > p.read-more a {
       display:inline-block;
@@ -125,59 +159,34 @@ div.post {
       color:#302400;
       text-decoration:none;
     }
-  /*div.post strong { font-weight:inherit; background:#FBF4B1; }*/
-  div.post li { margin-left: 2em; margin-bottom:0.3em; }
-  div.post ul > li { margin-left:1.4em; }
-  div.post blockquote {
-    padding-left:30px;
-    background: transparent 
-        url(http://static.tumblr.com/sajzoro/2pUkqr1t1/aster.png) 
-        no-repeat scroll 0 0;
-    font-style:italic;
-  }
-    /*div.post blockquote > p {
-      padding-left:0.6em;
-      border-left:0.4em solid #ddd;
-    }*/
-  div.post div.quotation blockquote { margin-left:-30px; }
-  div.post pre {
-    font-family: 'M+ 1m', monospace;
-    background-color:#eee;
-    padding:0.4em 1em;
-    border-left:2px solid #ddd;
-  }
-  div.post div.body :target { background:#fe0; }
-  div.post div.body sup:target a { padding:2px 5px; }
-  div.post div.footnotes li { color:#999; }
-  div.post div.footnotes li:target { background:#ffc; color:inherit; }
 
-  /* prettyprint */
-  div.post pre .str { color: #080; }
-  div.post pre .kwd { color: #295AA4; }
-  div.post pre .com { color: #999; }
-  div.post pre .typ { color: #808; }
-  div.post pre .lit { color: #066; }
-  div.post pre .pun, div.post pre .opn, div.post pre .clo { color: #660; }
-  div.post pre .pln { color: #000; }
-  div.post pre .tag { color: #008; }
-  div.post pre .atn { color: #606; }
-  div.post pre .atv { color: #080; }
-  div.post pre .dec { color: #606; }
-  /* Use higher contrast and font-styling for printable form. */
-  @media print {
-    div.post pre .str { color: #060; }
-    div.post pre .kwd { color: #006; font-weight: bold; }
-    div.post pre .com { color: #999; font-style: italic; }
-    div.post pre .typ { color: #404; font-weight: bold; }
-    div.post pre .lit { color: #044; }
-    div.post pre .pun, div.post pre .opn, div.post pre .clo {
-      color: #440;
-    }
-    div.post pre .pln { color: #000; }
-    div.post pre .tag { color: #006; font-weight: bold; }
-    div.post pre .atn { color: #404; }
-    div.post pre .atv { color: #060; }
+/* prettyprint */
+pre .str { color: #080; }
+pre .kwd { color: #295AA4; }
+pre .com { color: #999; }
+pre .typ { color: #808; }
+pre .lit { color: #066; }
+pre .pun, div.post pre .opn, div.post pre .clo { color: #660; }
+pre .pln { color: #000; }
+pre .tag { color: #008; }
+pre .atn { color: #606; }
+pre .atv { color: #080; }
+pre .dec { color: #606; }
+/* Use higher contrast and font-styling for printable form. */
+@media print {
+  pre .str { color: #060; }
+  pre .kwd { color: #006; font-weight: bold; }
+  pre .com { color: #999; font-style: italic; }
+  pre .typ { color: #404; font-weight: bold; }
+  pre .lit { color: #044; }
+  pre .pun, div.post pre .opn, div.post pre .clo {
+    color: #440;
   }
+  pre .pln { color: #000; }
+  pre .tag { color: #006; font-weight: bold; }
+  pre .atn { color: #404; }
+  pre .atv { color: #060; }
+}
 
 /* meta */
 div.meta { margin:1em 0; }

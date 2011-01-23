@@ -22,16 +22,15 @@ How did we manage to build a real-time scalable system and high-performance viz 
 
 *But... where does the data come from? From the internets?* -- Not really, but it sure travels in internets-style. We use a [dumb pub/sub message queue](/2009/10/comethttp-push-with-nginx). In one end a client (the WebKit/[Cocui](/2009/09/introduction-to-cocui) app in HTML/JavaScript) is listening (subscribing). In the other end one of our search servers are pushing messages into the queue in batches.
 
-	#!text
-	[batch of search queries during last minute]
-	                   ||
-	                   ||
-	                   \/
-	             [message queue]
-	              ||        ||
-	              ||        ||
-	              \/        \/
-	           [client]  [client]
+              	[batch of search queries during last minute]
+              	                   ||
+              	                   ||
+              	                   \/
+              	             [message queue]
+              	              ||        ||
+              	              ||        ||
+              	              \/        \/
+              	           [client]  [client]
 
 The client simply enqueues these search queries when they are delivered while at the same time dequeueing search queries. We do it this way (batches and a queue) because we simply have too high rate of searches. It would be almost impossible to read anything if we actually sent every single message. To give the feeling of real time we use a random delay when dequeueing queries.
 

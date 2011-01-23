@@ -31,12 +31,10 @@ Per [recommendation by Richard Jones](http://www.metabrew.com/article/a-million-
 
 And reloaded the configuration
 
-	#!sh
 	sysctl -p
 
 Nginx configured like this `nginx.conf`:
 
-	#!nginx
 	worker_processes  1;         #< single process since we do not need much CPU
 	daemon  off;                 #< so we can easily restart etc
 	error_log  nginx.log  info;  #< log stuff like connections closed
@@ -63,7 +61,6 @@ Nginx configured like this `nginx.conf`:
 
 Then started up nginx:
 
-	#!sh
 	ulimit -n 999999
 	nginx -c nginx.conf -p /tmp
 
@@ -71,7 +68,6 @@ Then started up nginx:
 
 The client host was a MacPro running OS X 10.5.
 
-	#!sh
 	sudo su
 	ulimit -n 12000
 	sysctl -w kern.maxfiles=65536 kern.maxfilesperproc=32768
@@ -84,7 +80,6 @@ I did not make these changes permanent (i.e. did not add them to /etc/sysctl.con
 
 httperf is a neat tool I use for some HTTP tests. However, because of a [nasty limit in glibc](http://nico.schottelius.org/documentations/howtos/creating-a-ha-lb-web-and-database-cluster/webserver-tests) 
 
-	#!c
 	if (rlimit.rlim_max > FD_SETSIZE) {
 		fprintf (stderr, "%s: warning: open file limit > FD_SETSIZE; "
 			"limiting max. # of open files to FD_SETSIZE\n", prog_name);
@@ -93,7 +88,6 @@ httperf is a neat tool I use for some HTTP tests. However, because of a [nasty l
 
 httperf cried
 
-	#!text
 	httperf --hog --server=hal --port=8088 --num-conns=10000 --rate=200 \
 	 --uri=/msgq/listen?channel=pb
 	httperf: warning: open file limit > FD_SETSIZE; limiting max.
@@ -107,7 +101,6 @@ I actually considered digging in to [Tsung](http://tsung.erlang-projects.org/), 
 
 During the test I observed the nginx worker process to see how much memory (VM and residential) consumed. Note that these numbers are for active connections *in the `nginx_http_push` module*. A regular request in nginx should use slightly less memory. This is the command I used to observe memory usage:
 
-	#!sh
 	watch -n 1 'cat /proc/821/status | grep -E "Vm(RSS|Size)"'
 
 Before we begin, when there are no (zero) active connections in the server, thes is the base memory usage:
@@ -117,7 +110,6 @@ Before we begin, when there are no (zero) active connections in the server, thes
 
 Now, starting the `c10k-test-client.c`:
 
-	#!sh
 	$ ./c10k-test-client 10000 217.213.5.37 8088 '/msgq/listen?channel=pb'
 	Making 10000 connections to http://217.213.5.37:8088/msgq/listen?channel=pb
 	100 requests sent (100 connected)
@@ -134,7 +126,6 @@ Now, starting the `c10k-test-client.c`:
 
 Where it says `"# --- Here I send a message ---"` I used curl on my local computer to post a message to all 10 000 listeners:
 
-	#!sh
 	curl -id 'hello' http://hal.hunch.se:8088/msgq/post?channel=pb
 
 Now, lets look at memory consumption again (this was sampled *before* we posted the message) with 10 000 active connections:
@@ -161,8 +152,8 @@ My conclusion is that **1 active connection requires about 7 kB memory** (on a 6
 
 ### Notes
 
-> **Base readings:** When no connections are active in the `nginx_http_push` module, there are also no channels or message queues allocated. One channel plus module context occupies 170 kB, and as our test implicitly operates on a single channel, 170 kB was added to the residential memory base reading when calculating the "(N kB/conn)" values.
+**Base readings:** When no connections are active in the `nginx_http_push` module, there are also no channels or message queues allocated. One channel plus module context occupies 170 kB, and as our test implicitly operates on a single channel, 170 kB was added to the residential memory base reading when calculating the "(N kB/conn)" values.
 
-> **Hard FD limit in OS X:** Due to OS X not accepting a FD limit of more than 12000 (effectively slightly less) I was unable to run the test with more connections. Another day I might use a Linux host for the client part and perform more tests. **Update:** By explicitly specifying to set the **soft** limit, we can risen the FD limit beyond 12000 on OS X 10.5. e.g. `ulimit -S -n 50000`.
+**Hard FD limit in OS X:** Due to OS X not accepting a FD limit of more than 12000 (effectively slightly less) I was unable to run the test with more connections. Another day I might use a Linux host for the client part and perform more tests. **Update:** By explicitly specifying to set the **soft** limit, we can risen the FD limit beyond 12000 on OS X 10.5. e.g. `ulimit -S -n 50000`.
 
-> **Other resource usage?** I intentionally left out other resources observed during the test, like CPU and context switches. Load stayed at 0.00 during all tests and we only used a single process without any additional threads.
+**Other resource usage?** I intentionally left out other resources observed during the test, like CPU and context switches. Load stayed at 0.00 during all tests and we only used a single process without any additional threads.

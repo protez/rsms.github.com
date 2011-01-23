@@ -12,7 +12,6 @@ By popular demand I am releasing the Tumblr theme I've created for this site. Yo
 
 Grab the source:
 
-    #!sh
     git clone git://github.com/rsms/tumblr-theme-hunch.git
     open -t tumblr-theme-hunch/index.html
 

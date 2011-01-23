@@ -3,55 +3,74 @@
   <head>
     <meta charset="utf-8">
     <title>Rasmus Andersson {% if page.title %}&mdash; {{ page.title }} {% endif %}</title>
-    <meta name="description" content="Ramblings by Rasmus Andersson">
+    <meta name="description" content="Ramblings by Rasmus Andersson -- a Swedish designer with a passion for technology">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
     <link href="/res/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
     <link href="/res/print.css" media="print" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="/res/signature.png">
   </head>
   <body>
     <header>
       <ul class="navigation">
         <li><a href="/archive/" title="Archived articles">Archive</a></li>
-        <li><a href="http://hunch.se/">About me</a></li>
+        <li><a href="/about/">About me</a></li>
       </ul>
       <h1><a href="/"><span>Rasmus Andersson</span></a></h1>
-      <!--p class="description">
-        Hej. Hello. Hola. Bonjour. 喂. مرحبا<br>
-        My name is Rasmus Andersson and I'm a Swedish designer with a passion for technology.
-      </p-->
     </header>
-    <div class="wrapper">
+    <div class="wrapper content">
       {{ content }}
     </div>
     {% if paginator.page %}
     <div id="paginator">
+      {% if paginator.next_page %}
       <a href="/page{{ paginator.next_page }}/">Older entries</a>
+      {% endif %}
       {% if paginator.previous_page %}
       <a href="/page{{ paginator.previous_page }}/">Newer entries</a>
       {% endif %}
     </div>
     {% endif %}
     <footer>
-      <a href="/" title="Home">Home</a> &mdash;
-      <a href="http://hunch.se/" title="About the author and site">About</a> &mdash;
-      <a href="/archive/" title="Archived articles">Archive</a> &mdash;
-      <a href="/resume/" title="Me explained in a strict form">Résumé</a> &mdash;
-      <a href="http://twitter.com/rsms" title="I'm @rsms on Twitter">Twitter</a> &mdash;
-      <a href="http://www.facebook.com/rsms" title="Friends and foes">Facebook</a> &mdash;
-      <a href="http://www.flickr.com/photos/rsms/" title="My photos on Flickr">Photography</a> &mdash;
-      <a href="http://hunch.se/stuff/" title="Pretty, funny and boring things I've found or made">Stuff</a> &mdash;
-      <a href="http://github.com/rsms" title="I heart GitHub">Code</a>
       <form action="http://www.google.com/cse" id="cse-search-box">
-        <div>
+        <p>
+          Search my content, including this site:
           <input type="hidden" name="cx" value="006553118601910168903:-x3qflztwei" />
           <input type="hidden" name="ie" value="UTF-8" />
           <input type="text" name="q" size="31" />
           <input type="submit" name="sa" value="Search" />
-        </div>
+        </p>
       </form>
       <script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
     </footer>
+    <script>
+      // curry pre < code to be able to get prettified
+      var n,i,L,v = document.getElementsByTagName('pre');
+      for (i=0,L=v.length;i<L;++i) {
+        n = v.item(i);
+        if (n.firstChild && n.firstChild.nodeName == 'CODE')
+          n.setAttribute('class', 'prettyprint');
+      }
+      // support for GitHub-style ```lang code blocks
+      v = document.getElementsByTagName('p');
+      var n2,lang,m,re = /^([a-z0-9_+])\n/m;
+      for (i=0,L=v.length;i<L;++i) {
+        n = v.item(i);
+        if (n && n.firstChild && n.firstChild.nodeName == 'CODE') {
+          n2 = document.createElement('pre');
+          lang = '';
+          if ((m = re.exec(n.firstChild.firstChild.nodeValue))) {
+            lang = ' lang-'+m[1];
+            n.firstChild.firstChild.nodeValue =
+                n.firstChild.firstChild.nodeValue.substr(m[0].length);
+          }
+          n2.setAttribute('class', 'prettyprint'+lang);
+          n2.appendChild(n.firstChild);
+          n.parentNode.replaceChild(n2, n);
+        }
+      }
+    </script>
+    <script async src="/res/prettify.js"></script>
     {% include analytics.html %}
     <script>
       // Preload font files and finally patch CSS with custom fonts.

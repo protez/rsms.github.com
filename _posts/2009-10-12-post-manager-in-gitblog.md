@@ -19,6 +19,5 @@ As a post can be in several states (and versions) at the same time, I had to use
 
 To get this feature, simply perform a git pull in your gitblog directory:
 
-    #!text
     cd path/to/my/blog/gitblog
     git pull
