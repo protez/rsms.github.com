@@ -11,7 +11,7 @@ My name is Rasmus Andersson. I'm a Swedish designer with a passion for technolog
 [Spray](http://www.spray.se/),
 [Lear Corporation](http://lear.com/) and
 [Notion](http://notion.se/).
-More information [can be found on LinkedIn](http://www.linkedin.com/in/rasmusandersson) or in my [Résumé](http://hunch.se/resume/).
+More information [can be found on LinkedIn](http://www.linkedin.com/in/rasmusandersson) or in my [Résumé](/about/resume/).
 
 [Read more about my work with Spotify &rarr;](/about/spotify/)
 
