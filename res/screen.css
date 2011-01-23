@@ -9,6 +9,9 @@ body {
   width: 640px;
 }
 
+.small { font-size: 11px; color: #999; }
+div.breaker { clear:both; }
+
 p, ul, ol, pre, blockquote, hr, object { margin: 1em 0; }
 img { border:none; vertical-align:bottom; }
 strong { font-weight:bold; }
@@ -237,71 +240,10 @@ div.meta { margin:1em 0; }
     display:none;
   }
 
-/* notes */
-#notes {
-  border-bottom: 1px dashed #ddd;
-  margin-left:-999em; padding-left:999em;
-  padding-bottom:1em;
+footer {
+  color:#999;
+  display: block;
+  margin:1em 0 1em 0;
+  padding-bottom: 30px;
+  background: transparent url('end-floral.png') no-repeat scroll bottom center;
 }
-#notes ol.notes { list-style:none; margin-top:0; }
-#notes ol.notes li { margin-left:0; }
-#notes ol.notes blockquote {
-  background-color:#eee;
-          border-radius:9px;
-  -webkit-border-radius:9px;
-     -moz-border-radius:9px;
-  padding:0.618em 1em;
-  margin:0.5em 0 1.5em 1em;
-  display:inline-block;
-}
-#notes div.left-margin-icon {
-  float:left;
-  margin-left:-30px;
-  width:11px;
-  height:28px;
-  background:
-      url(http://static.tumblr.com/9njdies/ykvl8nmzz/note-count.png)
-      no-repeat scroll 0 5px;
-  opacity:0.3;
-}
-
-/* pagenav */
-#pagenav {
-  background:#ddd;
-  margin: 2em 0 0 0;
-  padding:0 0.5em;
-}   
-  #pagenav .inside {
-    text-align: center;
-    position: relative;
-  }
-  #pagenav a.back, #pagenav a.forward, #pagenav .pages {
-    font-size: 11px;
-    color: #ccc;
-    text-transform: uppercase;
-  }
-  #pagenav a:link, #pagenav a:active, #pagenav a:visited,
-      #pagenav .pages {
-    color: #666;
-  }
-  #pagenav a:link:hover, #pagenav a:active:hover,
-      #pagenav a:visited:hover {
-    color: #000;
-  }
-  #pagenav a.back {
-    float:left;
-    text-align: left;
-  }
-  #pagenav a.forward {
-    float: right;
-    text-align: right;
-  }
-
-#footer {
-  font-size: 11px;
-  margin-bottom: 0px;
-  margin-top: 1em;
-}
-
-.small { font-size: 11px; color: #999; }
-div.breaker { clear:both; }
