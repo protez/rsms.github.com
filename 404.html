@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>untitled</title>
+  <head>
+    <meta charset="utf-8">
+    <title>untitled</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
 var tumblr_urls = {
 "481294692": "2010/03/29/via-lostinthesounds.html",
@@ -961,8 +962,7 @@ if (!dst_path && (m = path.match(/^\/post\/([0-9]+)\//)) ) {
   dst_path = tumblr_urls[m[1]];
 }
 if (dst_path) {
-  //document.location.pathname = '/'+dst_path;
-  alert(dst_path)
+  document.location.pathname = '/'+dst_path;
 }
 window.onload = function() {
   document.getElementById('search_box').value =
@@ -974,11 +974,11 @@ window.onload = function() {
     a { color:inherit; text-decoration:none; }
     a:hover { text-decoration:underline; }
   </style>
-	</head>
-	<body>
-	  <h1><a href="/">Rasmus Andersson</a></h1>
-		<h2>404 Not found</h2>
-		<p>Ooops. Looks like you followed a dead link. Try searching this site:</p>
+  </head>
+  <body>
+    <h1><a href="/">Rasmus Andersson</a></h1>
+    <h2>404 Not found</h2>
+    <p>Ooops. Looks like you followed a dead link. Try searching this site:</p>
     <form action="http://www.google.com/cse" id="cse-search-box">
       <div>
         <input type="hidden" name="cx" value="006553118601910168903:-x3qflztwei" />
@@ -987,5 +987,5 @@ window.onload = function() {
         <input type="submit" name="sa" value="Search" />
       </div>
     </form>
-	</body>
+  </body>
 </html>
