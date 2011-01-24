@@ -6,7 +6,7 @@ date: 2009-09-20 13:21:00 UTC
 title: How I wrote DroPub in two days
 ---
 
-Yesterday I wrote <a href="http://blog.hunch.se/2009/09/dropub-1-0">DroPub</a> -- a simple but powerful little OS X application which transparently handles file transfers "from the desktop".
+Yesterday I wrote <a href="http://rsms.me/2009/09/20/dropub-1-0.html">DroPub</a> -- a simple but powerful little OS X application which transparently handles file transfers "from the desktop".
 
 Even though it has a lot of features, have been tested, updates itself and so on, I only spent about two days on the whole project -- for me, this is the essence of <a href="http://en.wikipedia.org/wiki/Cocoa_(API)">Cocoa</a>.
 

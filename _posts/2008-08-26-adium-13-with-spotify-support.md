@@ -10,4 +10,4 @@ title: Adium 1.3 with Spotify-support
 
 You can read more in the <a href="http://blog.spotify.com/archives/2008/08/27/clickable-spotify-uris-in-adium">Spotify Blog</a>.
 
-[1] <a href="http://blog.hunch.se/archive/2007/07/18/an-introduction-to-spotify-uris">Introduction to Spotify URI's</a>
+[1] <a href="http://rsms.me/2007/07/18/an-introduction-to-spotify-uris.html">Introduction to Spotify URI's</a>

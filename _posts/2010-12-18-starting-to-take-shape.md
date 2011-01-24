@@ -6,4 +6,4 @@ date: 2010-12-18 20:06:00 UTC
 title: Starting to take shape
 ---
 
-[![Starting to take shape](http://blog.hunch.se/photo/1280/2363521264/1/tumblr_ldn3umfhrS1qzdlla)](http://instagr.am/p/m49y/)
+[![Starting to take shape](http://distillery.s3.amazonaws.com/media/2010/12/18/0e9e079cd037491092ba0cb45d0e1ec4_7.jpg)](http://instagr.am/p/m49y/)

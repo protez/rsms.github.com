@@ -18,7 +18,7 @@ We ended up writing a real-time search query visualization in just about a few h
 
 How did we manage to build a real-time scalable system and high-performance viz in such an awfully short time?!
 
-<img src="http://farm3.static.flickr.com/2509/4134104571_69eda37643_m.jpg" width="240" height="180" alt="Hack night" align="right" title="Hacking in style with lit candles and beer">Well, for starters we used WebKit through [Cocui](http://blog.hunch.se/2009/09/introduction-to-cocui) which instantly gave us full screen high-performance hardware-accelerated drawing (yes, it's a long sentence with cool words but those things shouldn't be taken for granted).
+<img src="http://farm3.static.flickr.com/2509/4134104571_69eda37643_m.jpg" width="240" height="180" alt="Hack night" align="right" title="Hacking in style with lit candles and beer">Well, for starters we used WebKit through [Cocui](http://rsms.me/2009/09/16/introduction-to-cocui.html) which instantly gave us full screen high-performance hardware-accelerated drawing (yes, it's a long sentence with cool words but those things shouldn't be taken for granted).
 
 *But... where does the data come from? From the internets?* -- Not really, but it sure travels in internets-style. We use a [dumb pub/sub message queue](/2009/10/comethttp-push-with-nginx). In one end a client (the WebKit/[Cocui](/2009/09/introduction-to-cocui) app in HTML/JavaScript) is listening (subscribing). In the other end one of our search servers are pushing messages into the queue in batches.
 

@@ -10,7 +10,7 @@ Today (Oct 7th, 2009) was the 1 year anniversary of the [Spotify](http://www.spo
 
 <img src="http://farm4.static.flickr.com/3522/3990674101_f402eecfd5_o.jpg" width="600" alt="Spotify birthday cake" />
 
-[One year ago we pushed the button](http://blog.hunch.se/2008/10/07-spotify-official-release), releasing [www.spotify.com](http://www.spotify.com/) and the first public, official desktop client application.
+[One year ago we pushed the button](http://rsms.me/2008/10/07/spotify-official-release.html), releasing [www.spotify.com](http://www.spotify.com/) and the first public, official desktop client application.
 
 <a href="http://www.flickr.com/photos/rsms/sets/72157607825941639/" title="Pushing the button"><img src="http://farm4.static.flickr.com/3109/2921943136_ee275f44fd_b.jpg" alt="Pushing The Button" /></a>
 

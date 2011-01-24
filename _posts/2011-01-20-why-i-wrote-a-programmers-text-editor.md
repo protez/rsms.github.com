@@ -6,7 +6,7 @@ date: 2011-01-20 16:17:00 UTC
 title: Why I wrote a programmer's text editor
 ---
 
-In mid August 2010 I [left Spotify to eventually work for Facebook](http://blog.hunch.se/post/1102106518/moving-on) in California. However, as the US Visa process is apparently not the simplest of constructions I've been having a sort of involuntary (but much appreciated) vacation.
+In mid August 2010 I [left Spotify to eventually work for Facebook](http://rsms.me/2010/06/11/moving-on.html) in California. However, as the US Visa process is apparently not the simplest of constructions I've been having a sort of involuntary (but much appreciated) vacation.
 
 This was the first time in 10 years that I didn't have an "important thing to do" in a relatively short term perspective, which almost drove me nuts. So, what am [a designer/programmer/philosopher/dude](http://hunch.se/) supposed to do? Build something of course. Create. So I started thinking of a few ideas I've had for a while and finally decided to explore my urge for a "better" program code editor. I've understood that many CS people write their own editor at some point in time, mostly for the same reasons they (sorry, no offense here) compete in writing efficient implementations of mathematical algorithms which no one will ever really use, or even need.
 
@@ -18,7 +18,7 @@ It took me about a month of mixed efforts to get my bearings straight. Sure I ha
 
 Since the launch of [Chromium](http://www.chromium.org/) (aka Google Chrome) for Mac, I've been almost kind of fascinated by the ingenuity of Chromium's tab user experience. Not only did they (as in the Chromium UX team) put the tabs as an integral part of the documents they where representing (rather than being part of the frame holding the documents), but also giving a lot of love to details. For instance when you have a bunch of tabs open and you quickly want to close these tabs, you can simply put your mouse over the "x" button of the leftmost tab and then ["click, click, click..."](http://www.theinvisibl.com/news/2009/12/08/a-piece-with-a-lot-of-screenshots-about-the-close-tab-behaviour-in-google-chrome/) — tabs flowing in from the right hand side after a tab is closed will nicely align their "x"-buttons with the previous locations, ultimately making the action of closing several documents an intuitive and no-frills thing users. With my editor, I wanted to borrow this thought-through and well-proven design.
 
-[<img src="http://kodapp.com/icon-256.png" alt="Kod icon" width="256" height="256" align="right">](http://kodapp.com/)After [a few months](http://blog.hunch.se/post/1669339986/building-some-software-while-the-snow-is-gently) I had [a first version ready of my editor](http://blog.hunch.se/post/2363521264/starting-to-take-shape) and I dubbed it ["Kod"](http://kodapp.com/) from the Swedish word "kod", meaning "code".
+[<img src="http://kodapp.com/icon-256.png" alt="Kod icon" width="256" height="256" align="right">](http://kodapp.com/)After [a few months](http://rsms.me/2010/11/24/building-some-software-while-the-snow-is-gently.html) I had [a first version ready of my editor](http://rsms.me/2010/12/18/starting-to-take-shape.html) and I dubbed it ["Kod"](http://kodapp.com/) from the Swedish word "kod", meaning "code".
 
 My idea with the tabs is to provide a good abstraction of things known in the physical world (i.e. a document has a tab), primarily for light-weight users.
 

@@ -10,4 +10,4 @@ title: Hello Tumblr
 
 I've moved my blog to [Tumblr](http://www.tumblr.com/), merging content from the previous version a.k.a. ["Hunch Digest"](http://hunch.se/stuff/hunch-digest-blog-archive/) with content published on rsms.tumblr.com.
 
-**Update:** I've [published my Tumblr theme](http://blog.hunch.se/post/1137689240/tumblr-theme)
+**Update:** I've [published my Tumblr theme](http://rsms.me/2010/09/17/tumblr-theme.html)
