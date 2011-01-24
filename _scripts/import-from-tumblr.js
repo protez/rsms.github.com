@@ -184,7 +184,8 @@ function import_posts(offset, final_callback) {
         //console.log('import_posts(next_offset, final_callback);')
         import_posts(next_offset, final_callback);
       } else if (final_callback) {
-        console.log('[DRY_RUN] import_posts(%d, final_callback);', next_offset)
+        if (DRY_RUN)
+          console.log('[DRY_RUN] import_posts(%d, final_callback);', next_offset)
         final_callback();
       }
     })
