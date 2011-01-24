@@ -15,6 +15,7 @@ More information [can be found on LinkedIn](http://www.linkedin.com/in/rasmusand
 
 [Read more about my work with Spotify &rarr;](/about/spotify/)
 
+
 ## Elsewhere
 
 You can find me on a variety of social web sites; my username is usually "rsms".
