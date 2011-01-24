@@ -11,8 +11,7 @@ layout: default
 
   <div id="disqus_thread"></div>
   <script type="text/javascript">
-    window.disqus_identifier =
-      {% if page.tumblr_id %}"{{ page.tumblr_id }}"{% else %}"{{ page.id }}"{% endif %};
+    window.disqus_identifier = {% if page.tumblr_id %}"{{ page.tumblr_id }}"{% else %}"{{ page.id }}"{% endif %};
   </script>
   <script async src="http://hunch.disqus.com/embed.js"></script>
   <noscript>Please enable JavaScript to view the
