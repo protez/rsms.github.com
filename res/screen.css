@@ -145,6 +145,7 @@ div.post {
     color:#999;
   }
   div.post div.body {}
+    div.post div.body img { max-width:100%; }
     div.post div.body > p.read-more { text-align:center; }
     div.post div.body > p.read-more a {
       display:inline-block;
