@@ -125,6 +125,7 @@ div.post {
   margin-left:-999em; padding-left:999em;
   page-break-before: always;
 }
+  div.post:last-child { border-bottom:none; }
   div.post h1:first-child { margin-top:0; }
   div.post postamble {
     display:block;
@@ -238,6 +239,7 @@ footer {
   display: block;
   margin:1em 0 1em 0;
   padding-bottom: 30px;
+  border-top:1px solid #eee;
   background: transparent url('end-floral.png') no-repeat scroll bottom center;
 }
 

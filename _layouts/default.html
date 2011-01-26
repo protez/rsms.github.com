@@ -13,39 +13,7 @@
     <link rel="alternate" type="application/atom+xml" title="Rasmus Andersson" href="http://feeds.feedburner.com/hunch">
     <link rel="shortcut icon" href="/res/signature.png">
     {% if page.title != "Archive (sidebar)" %}
-    <script>
-      //html { zoom:50%; }
-      if (window.addEventListener) {
-        var sidebarAdjustTimer;
-        function updateOrientation(orientationChangeEvent) {
-          if (sidebarAdjustTimer) clearInterval(sidebarAdjustTimer);
-          //console.log('window.orientation -> '+window.orientation);
-          if (window.orientation === -90 || window.orientation === 90) {
-            // landscape
-            var sidebar = document.getElementById('sidebar');
-            if (!sidebar.src || sidebar.src === '') {
-              sidebar.src = '/archive/sidebar.html';
-            }
-            sidebarAdjustTimer = setInterval(function() {
-              var height = Math.round(document.height * 1.6);
-              if (sidebar.height != height) {
-                sidebar.height = height;
-                sidebar.style.height = height + 'px';
-              }
-            },500);
-          } else {
-            // portrait
-          }
-        }
-        window.addEventListener('orientationchange', updateOrientation);
-        document.addEventListener('DOMSubtreeModified', function(ev) {
-          if (document.getElementById('sidebar')) {
-            document.removeEventListener('DOMSubtreeModified', arguments.callee);
-            updateOrientation();
-          }
-        });
-      }
-    </script>
+    {% include sidebar_ui_controller.html %}
     {% endif %}
   </head>
   <body>
@@ -84,6 +52,5 @@
     </footer>
     {% include prettify.html %}
     {% include analytics.html %}
-    {% include disqus.html %}
   </body>
 </html>
