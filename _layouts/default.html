@@ -19,7 +19,7 @@
         var sidebarAdjustTimer;
         function updateOrientation(orientationChangeEvent) {
           if (sidebarAdjustTimer) clearInterval(sidebarAdjustTimer);
-          console.log('window.orientation -> '+window.orientation);
+          //console.log('window.orientation -> '+window.orientation);
           if (window.orientation === -90 || window.orientation === 90) {
             // landscape
             var sidebar = document.getElementById('sidebar');
