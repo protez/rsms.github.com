@@ -7,9 +7,6 @@ layout: default
   <div class="breaker"></div>
   <postamble datetime="{{ page.date | date: "%Y-%m-%d" }}">
     &mdash;{{ page.date | date: "%b %d, %Y" }}
-    {% if page.categories %}
-      in {{ page.categories | category_links }}
-    {% endif %}
   </postamble>
 
   <div id="disqus_thread"></div>

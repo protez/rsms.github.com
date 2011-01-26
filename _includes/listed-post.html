@@ -4,8 +4,5 @@
   <div class="breaker"></div>
   <postamble datetime="{{ post.date | date: "%Y-%m-%d" }}">
     &mdash;{{ post.date | date: "%b %d, %Y" }}
-    {% if post.categories.size > 0 %}
-      in {{ post.categories | category_links }}
-    {% endif %}
   </postamble>
 </div>
