@@ -2,7 +2,7 @@
 * { margin:0; padding:0; font-family:inherit; }
 body {
   background:white; color:#222;
-  font:13px 'Droid Serif', georgia, serif;
+  font:13px georgia, serif;
   line-height:1.4;
   font-weight: lighter;
   margin: 0 auto;
@@ -13,6 +13,7 @@ body {
 div.breaker { clear:both; }
 
 p, ul, ol, pre, blockquote, hr, object { margin: 1em 0; }
+pre, code, tt { font-family: monospace; }
 img { border:none; vertical-align:bottom; }
 strong { font-weight:bold; }
 hr { height:1px; border:none; background-color:#ddd; }
@@ -32,9 +33,7 @@ h5,h6 { font-size:12px; color:#888; }
 a { text-decoration:none; }
 a:link, a:active { color:#316d96; }
 a:visited { color:#7e5494; }
-a:link:hover, a:active:hover, a:visited:hover {
-  text-decoration:underline;
-}
+a:link:hover, a:active:hover, a:visited:hover { text-decoration:underline; }
 a:link:hover, a:active:hover { color:#006be4; }
 a:visited:hover { color:#af00cf; }
 a > img { margin-bottom:-1px; }
@@ -57,16 +56,6 @@ header {
   padding-top:1em;
   padding-bottom:0;
 }
-  header h1 {}
-    header h1 a {
-      display:block;
-      background: url(signature.png) no-repeat scroll top left;
-      width: 81px;
-      height: 31px;
-      margin-left:-2px;
-      margin-top:-20px;
-    }
-      header h1 a span { display:none; }
   header p.description {
     font:9px 'lucida grande', 'tahoma', sans-serif;
     color: #ccc;
@@ -112,13 +101,11 @@ body div.content {}
     }*/
   body div.content div.quotation blockquote { margin-left:-30px; }
   body div.content pre {
-    font-family: 'M+ 1m', monospace;
     background-color:#eee;
     padding:0.4em 1em;
     border-left:2px solid #ddd;
   }
   body div.content code {
-    font-family: 'M+ 1m', monospace;
     background-color:#eee;
     padding:0 0.1em;
   }
@@ -139,11 +126,17 @@ div.post {
   page-break-before: always;
 }
   div.post h1:first-child { margin-top:0; }
-  div.post time {
+  div.post postamble {
     display:block;
     margin-bottom:1em;
     color:#999;
   }
+    postamble a:link, postamble a:active {
+      color:#859FB3;
+    }
+    postamble a:visited {
+      color:#A591AA;
+    }
   div.post div.body {}
     div.post div.body > p.read-more { text-align:center; }
     div.post div.body > p.read-more a {
@@ -246,4 +239,46 @@ footer {
   margin:1em 0 1em 0;
   padding-bottom: 30px;
   background: transparent url('end-floral.png') no-repeat scroll bottom center;
+}
+
+/* device specifics */
+
+/* medium-res devices (e.g. ipad and iphone) */
+@media only screen and (max-device-width: 1024px) {
+  html { width:750px; overflow:hidden; }
+  pre { overflow:scroll; white-space:pre-wrap; }
+  pre, code, tt { font-size:0.95em; }
+}
+
+/* medium-res landscape devices (e.g. ipad but not iphone) */
+#sidebar { display:none; }
+@media only screen and (min-device-width: 480px) and (orientation:landscape) {
+  #sidebar {
+    display:block;
+    width:350px;
+    height:100%;
+    border:none;
+    background-color:#333;
+    position:absolute;
+    right:0;
+    top:0;
+  }
+  html { zoom:60%; }
+}
+
+/* devices like laptops and regular computers (including ipad but not
+   iphone) Note that iOS with retina display device calculates with a 1/2
+   resolution due to the concept of "scale", thus an iPhone 4 triggers for
+   480x230px rather than the actual 960x480 pixels. This is a good thing.
+*/
+@media (min-device-width: 480px) {
+  @font-face {
+    font-family: 'M+ 1m';
+    font-style: normal;
+    font-weight: 300;
+    src: local('M+ 1m light'), local('mplus-1m-light'),
+         url('http://hunch.se/style/fonts/mplus-1m-light.ttf') 
+         format('truetype');
+  }
+  pre, code, tt { font-family: 'M+ 1m', monospace; }
 }

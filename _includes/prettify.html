@@ -1,0 +1,28 @@
+<script>
+  // curry pre < code to be able to get prettified
+  var n,i,L,v = document.getElementsByTagName('pre');
+  for (i=0,L=v.length;i<L;++i) {
+    n = v.item(i);
+    if (n.firstChild && n.firstChild.nodeName == 'CODE')
+      n.setAttribute('class', 'prettyprint');
+  }
+  // support for GitHub-style ```lang code blocks
+  v = document.getElementsByTagName('p');
+  var n2,lang,m,re = /^([a-z0-9_+])\n/m;
+  for (i=0,L=v.length;i<L;++i) {
+    n = v.item(i);
+    if (n && n.firstChild && n.firstChild.nodeName == 'CODE') {
+      n2 = document.createElement('pre');
+      lang = '';
+      if ((m = re.exec(n.firstChild.firstChild.nodeValue))) {
+        lang = ' lang-'+m[1];
+        n.firstChild.firstChild.nodeValue =
+            n.firstChild.firstChild.nodeValue.substr(m[0].length);
+      }
+      n2.setAttribute('class', 'prettyprint'+lang);
+      n2.appendChild(n.firstChild);
+      n.parentNode.replaceChild(n2, n);
+    }
+  }
+</script>
+<script async src="/res/prettify.js"></script>

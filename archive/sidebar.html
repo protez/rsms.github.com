@@ -1,0 +1,46 @@
+---
+layout: default
+title: Archive (sidebar)
+---
+<style>
+  header, footer, #sidebar { display:none !important; }
+  html, body { width:100% !important; }
+  html { zoom:60%; text-shadow: #000 0 1px 1px; }
+  body { background-color:#222; color:#fff; }
+  ul { list-style:none; padding-left:0 !important; }
+  li { margin-left:0 !important; }
+  li > a {
+    display:block;
+    padding:5px 5px 5px 15px;
+    border-top:1px solid #333;
+    font-family:'helvetica neue','helvetica',sans-serif;
+    width:330px;
+  }
+  li > a > span {
+    display:block;
+    padding:0; margin:0;
+    white-space:nowrap; overflow:hidden; text-overflow: ellipsis;
+    width:320px;
+  }
+  li > a:link, li > a:visited { color:#999; }
+  li > a:active { color:white; }
+  li > a info { display:block; color:#666; }
+  h2 { margin-top:15px; text-align:center; color:white; }
+</style>
+<script>
+  function openInParent(self) {
+    window.parent.document.location = self.href;
+    return false;
+  }
+</script>
+<h2>Recent posts</h2>
+<ul>
+{% for post in site.posts %}
+  <li>
+    <a onclick="return openInParent(this)" href="{{ post.url }}">
+      <span>{{ post.title }}</span>
+      <info>{{ post.date | date: "%b %d, %Y"  }}</info>
+    </a>
+  </li>
+{% endfor %}
+</ul>

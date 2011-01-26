@@ -5,18 +5,57 @@
     <title>Rasmus Andersson {% if page.title %}&mdash; {{ page.title }} {% endif %}</title>
     <meta name="description" content="Ramblings by Rasmus Andersson -- a Swedish designer with a passion for technology">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    {% if page.title != "Archive (sidebar)" %}
+		<meta name="viewport" content="width=700">
+		{% endif %}
     <link rel="stylesheet" media="screen, projection" href="/res/screen.css" type="text/css">
     <link rel="stylesheet" media="print" href="/res/print.css" type="text/css">
     <link rel="alternate" type="application/atom+xml" title="Rasmus Andersson" href="http://feeds.feedburner.com/hunch">
     <link rel="shortcut icon" href="/res/signature.png">
+    {% if page.title != "Archive (sidebar)" %}
+    <script>
+      //html { zoom:50%; }
+      if (window.addEventListener) {
+        var sidebarAdjustTimer;
+        function updateOrientation(orientationChangeEvent) {
+          if (sidebarAdjustTimer) clearInterval(sidebarAdjustTimer);
+          console.log('window.orientation -> '+window.orientation);
+          if (window.orientation === -90 || window.orientation === 90) {
+            // landscape
+            var sidebar = document.getElementById('sidebar');
+            if (!sidebar.src || sidebar.src === '') {
+              sidebar.src = '/archive/sidebar.html';
+            }
+            sidebarAdjustTimer = setInterval(function() {
+              var height = Math.round(document.height * 1.6);
+              if (sidebar.height != height) {
+                sidebar.height = height;
+                sidebar.style.height = height + 'px';
+              }
+            },500);
+          } else {
+            // portrait
+          }
+        }
+        window.addEventListener('orientationchange', updateOrientation);
+        document.addEventListener('DOMSubtreeModified', function(ev) {
+          if (document.getElementById('sidebar')) {
+            document.removeEventListener('DOMSubtreeModified', arguments.callee);
+            updateOrientation();
+          }
+        });
+      }
+    </script>
+    {% endif %}
   </head>
   <body>
+    <iframe id="sidebar"></iframe>
     <header>
       <ul class="navigation">
         <li><a href="/archive/" title="Archived articles">Archive</a></li>
         <li><a href="/about/">About me</a></li>
       </ul>
-      <h1><a href="/"><span>Rasmus Andersson</span></a></h1>
+      <h1><a href="/"><img src="/res/signature.png" width="81" height="31" alt="Signature"></a></h1>
     </header>
     <div class="wrapper content">
       {{ content }}
@@ -43,64 +82,8 @@
       </form>
       <script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
     </footer>
-    <script>
-      // curry pre < code to be able to get prettified
-      var n,i,L,v = document.getElementsByTagName('pre');
-      for (i=0,L=v.length;i<L;++i) {
-        n = v.item(i);
-        if (n.firstChild && n.firstChild.nodeName == 'CODE')
-          n.setAttribute('class', 'prettyprint');
-      }
-      // support for GitHub-style ```lang code blocks
-      v = document.getElementsByTagName('p');
-      var n2,lang,m,re = /^([a-z0-9_+])\n/m;
-      for (i=0,L=v.length;i<L;++i) {
-        n = v.item(i);
-        if (n && n.firstChild && n.firstChild.nodeName == 'CODE') {
-          n2 = document.createElement('pre');
-          lang = '';
-          if ((m = re.exec(n.firstChild.firstChild.nodeValue))) {
-            lang = ' lang-'+m[1];
-            n.firstChild.firstChild.nodeValue =
-                n.firstChild.firstChild.nodeValue.substr(m[0].length);
-          }
-          n2.setAttribute('class', 'prettyprint'+lang);
-          n2.appendChild(n.firstChild);
-          n.parentNode.replaceChild(n2, n);
-        }
-      }
-    </script>
-    <script async src="/res/prettify.js"></script>
+    {% include prettify.html %}
     {% include analytics.html %}
     {% include disqus.html %}
-    <script>
-      // Preload font files and finally patch CSS with custom fonts.
-      // We do this to avoid displaying unreadable text while waiting for data.
-      function finalizer() {
-        var n = document.createElement('link');
-        n.href = '/res/custom-fonts.css';
-        n.media = 'screen, projection';
-        n.rel = 'stylesheet';
-        n.type = 'text/css';
-        document.getElementsByTagName('head').item(0).appendChild(n);
-      }
-      var countdown = 1;
-      function fetch(url) {
-        try {
-          var req = new XMLHttpRequest();
-          req.open('GET', url, true);
-          req.onreadystatechange = function () { if (req.readyState == 4) {
-            if (--countdown === 0)
-              finalizer()
-          }};
-          req.send();
-        } catch (e) {}
-      }
-      fetch('http://hunch.se/style/fonts/mplus-1m-light.ttf');
-      fetch('http://hunch.se/style/fonts/DroidSerif-Regular.woff');
-      fetch('http://hunch.se/style/fonts/DroidSerif-Italic.woff');
-      fetch('http://hunch.se/style/fonts/DroidSerif-Bold.woff');
-      if (--countdown === 0) finalizer();
-    </script>
   </body>
 </html>
