@@ -13,7 +13,7 @@ Anyhow, the thing is always there and it's bright. So what?
 
 What this means is basically that black on a computer screen is the most calm and low-intensity color while white is the most vibrant and intense color possible. From a purely logical perspective, computer software should be white text on dark background, but in reality that sort of mixture often induce a dull and "technical" feeling. Everything is in balance thus IMHO the key lies in not over-using white nor black. There are many more aspects to this discussion, like actual and perceived contrast when using different mixes of white/black or black/white, but we'll save that for another day.
 
-For a long time I've believed the Mac OS X Menubar should be black instead of a bright grey color since:
+For a long time I've thought that the Mac OS X Menubar should be black instead of a bright grey color since:
 
 - It sits on top of the screen at all times and thus have little or no need to provide [visual cues](http://en.wikipedia.org/wiki/Sensory_cue) for where it is currently positioned or what it's doing.
 
