@@ -35,9 +35,9 @@ Here's what a (more or less) standard OS X 10.6 desktop looks like:
 
 I believe the next version of OS X (10.7 aka "Lion") will feature a black Menubar, or even no stationary Menubar at all but rather one that slides down when the mouse or finger comes close to the upper screen edge, almost like the Dock when hidden.
 
-iOS has gotten a lot of attention and some of the really good UX and UI people at Apple has moved to or otherwise become part of the iOS HI team. For better or worse, OS X 10.7 is likely to have many iOS user interface ideas incorporated, like the fugly apps-on-your-desktop thingy revealed at Apple's ["Back to the Mac"](http://arstechnica.com/apple/news/2010/10/apple-announces-back-to-the-mac-event-for-october-20.ars) event last October:
+iOS has gotten a lot of attention and some of the really good UX and UI people at Apple has moved to or otherwise become part of the iOS HI team. For better or worse, OS X 10.7 is likely to have many iOS user interface ideas incorporated, like the fugly [Launchpad](http://www.apple.com/macosx/lion/#springboard) revealed at Apple's ["Back to the Mac"](http://arstechnica.com/apple/news/2010/10/apple-announces-back-to-the-mac-event-for-october-20.ars) event last October:
 
-![Fugly](http://farm6.static.flickr.com/5093/5421714226_85c74a6a57_z.jpg)
+![Launchpad](http://farm6.static.flickr.com/5093/5421714226_85c74a6a57_z.jpg)
 
 ### Notes & references
 
