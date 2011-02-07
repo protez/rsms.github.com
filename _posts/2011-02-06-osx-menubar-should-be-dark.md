@@ -25,7 +25,7 @@ As I see it, there's no sturdy logical or "concrete" argument for using a light-
 
 So yesterday, while having some kind of weird hack-slack-and-semla evening with my friend Oscar, I decided to hack OS X in order to achieve a black-with-white-text Menubar. Now, I'm not a big fan of hacking things which aren't meant to be hacked (like modifying proprietary binary blob resource files in the OS X Window Server). I gave up and are now instead using [Nocturne](http://code.google.com/p/blacktree-nocturne/) -- a neat little app which simply inverts the colors of the Menubar. This is what my desktop looks like now:
 
-[![Screenshot of my desktop](http://farm6.static.flickr.com/5017/5421584582_6ef57cc00b_z.jpg)](http://farm6.static.flickr.com/5017/5421584582_69ca992519_o.png)
+[![Screenshot of my desktop](http://farm6.static.flickr.com/5219/5423716650_6acfcaf187_z.jpg)](http://farm6.static.flickr.com/5219/5423716650_96c3ea2a78_o.png)
 
 Focus on essentials rather than peripheral functionality.
 
@@ -41,7 +41,7 @@ iOS has gotten a lot of attention and some of the really good UX and UI people a
 
 ### Notes & references
 
-- The wallpaper in the first screenshot can be found here: [http://hunch.se/stuff/world-map-wallpaper.png](http://hunch.se/stuff/world-map-wallpaper.png). It's a composite created by me but the sources are the OS X 10.5 standard wallpaper combined with a modified [SVG world map w/ timezone info](http://en.wikipedia.org/wiki/File:Timezones2010.png) released in the public domain.
+- The wallpaper in the first screenshot can be found here: [world-map-wallpaper.png](http://hunch.se/stuff/world-map-wallpaper.png). And here's a special version which cancels the shadow and provides a blacker menubar: [world-map-wallpaper-1440-black-top.psd](http://hunch.se/stuff/world-map-wallpaper-1440-black-top.psd). It's a composite created by me but the sources are the OS X 10.5 standard wallpaper combined with a modified [SVG world map w/ timezone info](http://en.wikipedia.org/wiki/File:Timezones2010.png) released in the public domain.
 
 - I must admit that I actually did do some very light hacking of the Menubar; namely changing the fugly shiny dark apple with a plain black one so to achieve a clean "glyph-like" white one when using Nocturne. For this, I used [ThemePark](http://www.geekspiff.com/software/themepark/) and simply created a new PNG in Photoshop which you can grab here: [http://hunch.se/stuff/plain-black-apple-icon.psd](http://hunch.se/stuff/plain-black-apple-icon.psd) (I release this little creation in the public domain).
 
