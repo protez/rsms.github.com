@@ -10,6 +10,8 @@ title: Flavors of code
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
 
+if (typeof console === 'undefined') var console={log:function(){}};
+
 function crc24(str) {
   var i, c, L, x, crc = 0xb704ce;
   for (i=0,L=str.length; i<L && (c = str.charCodeAt(i)); ++i) {
@@ -59,48 +61,100 @@ var atoc = {
     return false;
   },
   
+  repoCount: function() {
+    var count = 0;
+    for (var k in this.repos) count++;
+    return count;
+  },
+  
   // Fetches info for |username|
   loadUser: function(username, useCache, callback) {
     this.username = username;
+    this.repos = {};
+    var $progress = $('#progress').hide();
     if (useCache && this.loadUserState(1000*60*15)) {
       //console.log('loaded saved state', this.repos)
       this.drawPie();
       if (callback) callback();
       return;
     }
+    $progress.find('.loaded').text('0');
+    $progress.find('.total').text('?');
+    $progress.fadeIn(500);
     
-    var self = this;
-    var x = false, refcount = 1, fin = function(err) {
-      if (!err) self.saveUserState();
-      if (callback) callback(err);
+    var self = this, repoLanguagesQueue = [];
+    var x = false, refcount = 0, fin = function(err) {
+      if (err) {
+        $progress.fadeOut(200);
+        if (callback) callback(err);
+      } else {
+        self.loadQueuedRepoLanguages(repoLanguagesQueue, function(err) {
+          $progress.fadeOut(200);
+          if (!err) self.saveUserState();
+          if (callback) callback(err);
+        });
+      } 
     };
-    $.ajax({
-		  url: 'http://github.com/api/v2/json/repos/show/'+
-		       encodeURIComponent(username)+'?callback=?',
-		  dataType: 'json',
-		  error: function (xhr, textStatus, err) {
-		    refcount = 0;
-		    fin(err || new Error(textStatus));
-		  },
-		  success: function (data, textStatus, xhr) {
-		    self.repos = {};
-		    var i=0, repo;
-		    while ((repo = data.repositories[i++])) {
-		      self.repos[repo.name] = repo;
-	        ++refcount;
-	        self.loadRepoLanguages(repo.name, function(err) {
-	          if (--refcount === 0 || err) { refcount = 0; fin(err); }
-	        });
-		    }
-		    if (--refcount === 0) fin();
-		    self.drawPie();
-		  }
-		});
-		if (--refcount === 0) fin();
+    var page = 1;
+    var fetchNextPage = function() {
+      console.log('Fetching page '+page+' of repo listings');
+      ++refcount;
+      $.ajax({
+  		  url: 'http://github.com/api/v2/json/repos/show/'+
+  		       encodeURIComponent(username)+'?page='+page+'&callback=?',
+  		  dataType: 'json',
+  		  error: function (xhr, textStatus, err) {
+  		    refcount = 0;
+  		    fin(err || new Error(textStatus));
+  		  },
+  		  success: function (data, textStatus, xhr) {
+  		    var i=0, repo;
+  		    while ((repo = data.repositories[i++])) {
+  		      self.repos[repo.name] = repo;
+  		      repoLanguagesQueue.push(repo.name);
+  		    }
+          $progress.find('.total').text(String(self.repoCount()));
+  		    if (data.repositories.length === 30) {
+  		      page++;
+  		      fetchNextPage();
+  		    }
+  		    if (--refcount === 0)
+  		      fin();
+  		    self.drawPie();
+  		  }
+  		});
+  	}
+  	fetchNextPage();
+  },
+  
+  loadQueuedRepoLanguages: function (queue, callback) {
+    var self = this;
+    var $progress = $('#progress');
+    var loadNext = function() {
+      var repoName = queue.shift();
+      if (!repoName) {
+        if (callback) callback();
+        return;
+      }
+      var timeStarted = new Date;
+      self.loadRepoLanguages(repoName, function(err) {
+        $progress.find('.loaded').text(String(self.repoCount()-queue.length));
+        if (err) return callback && callback(err);
+        var timeSpent = (new Date)-timeStarted;
+        if (timeSpent < 1000) {
+          setTimeout(loadNext, 1000-timeSpent);
+        } else {
+          loadNext();
+        }
+      });
+    };
+    loadNext();
   },
   
   // Fetch language list for |repoName|
   loadRepoLanguages: function(repoName, callback) {
+    console.log('Fetching languages info for repo '+
+                this.username+'/'+repoName);
     var self = this;
     $.ajax({
 		  url: 'http://github.com/api/v2/json/repos/show/'+
@@ -452,9 +506,27 @@ $(function(){
 		    display:none;
 		    border-bottom:1px solid #ddd;
 		  }
+		  #progress {
+		    display:none;
+		    position: absolute;
+		    top: 15px;
+		    left: 15px;
+		    background: #ddd;
+		    width: 100px;
+		    text-align: center;
+		    padding:0.5em 0.5em 1em 0.5em;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        z-index:900;
+		  }
+		  #progress .n { font-size:2em; }
 		</style>
 	</head>
 	<body>
+	  <div id="progress">
+	    <span class="loaded n">12</span> of <span class="total n">60</span> repos loaded
+	  </div>
 	  <div id="usage">
 	    <h1>Flavors of code</h1>
 	    <p>
