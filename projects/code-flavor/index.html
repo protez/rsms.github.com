@@ -52,8 +52,11 @@ var atoc = {
     var now = (new Date).getTime(), age = now-userState.mtime;
     if (isNaN(age) || age > maxAge)
       return false;
-    this.repos = userState.repos;
-    return true;
+    for (var k in userState.repos) {
+      this.repos = userState.repos;
+      return true;
+    }
+    return false;
   },
   
   // Fetches info for |username|
