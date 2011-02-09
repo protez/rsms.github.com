@@ -145,8 +145,8 @@ var atoc = {
         $progress.find('.loaded').text(String(self.repoCount()-queue.length));
         if (err) return callback && callback(err);
         var timeSpent = (new Date)-timeStarted;
-        if (timeSpent < 1000) {
-          setTimeout(loadNext, 1000-timeSpent);
+        if (timeSpent < 1500) {
+          setTimeout(loadNext, 1500-timeSpent);
         } else {
           loadNext();
         }
