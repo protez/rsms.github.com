@@ -39,7 +39,7 @@ var atoc = {
   // Saves the current user's state in local storage
   saveUserState: function() {
     if (!window.localStorage) return;
-    window.localStorage['ghtoc.'+this.username] = JSON.stringify({
+    window.localStorage['ghtoc.2.'+this.username] = JSON.stringify({
       repos: this.repos,
       mtime: (new Date).getTime()
     });
@@ -47,7 +47,7 @@ var atoc = {
   
   loadUserState: function(maxAge) {
     if (!window.localStorage) return false;
-    var userState = window.localStorage['ghtoc.'+this.username];
+    var userState = window.localStorage['ghtoc.2.'+this.username];
     if (!userState) return false;
     try { userState = JSON.parse(userState); } catch(e) { return false; }
     if (typeof userState !== 'object' || !userState.repos) return false;
@@ -114,13 +114,17 @@ var atoc = {
   		      repoLanguagesQueue.push(repo.name);
   		    }
           $progress.find('.total').text(String(self.repoCount()));
-  		    if (data.repositories.length === 30) {
-  		      page++;
-  		      fetchNextPage();
-  		    }
-  		    if (--refcount === 0)
-  		      fin();
-  		    self.drawPie();
+          if (data.repositories.length === 30) {
+            setTimeout(function(){
+    		      page++;
+    		      fetchNextPage();
+    		      if (--refcount === 0) fin();
+    		      self.drawPie();
+            },1000);
+          } else {
+  		      if (--refcount === 0) fin();
+  		      self.drawPie();
+          }
   		  }
   		});
   	}
