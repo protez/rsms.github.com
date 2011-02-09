@@ -21,7 +21,7 @@ More information [can be found on LinkedIn](http://www.linkedin.com/in/rasmusand
 You can find me on a variety of social web sites; my username is usually "rsms".
 
 - [Facebook](http://www.facebook.com/rsms) — friends and foes
-- [Flickr](http://www.flickr.com/photos/rsms/) — selected photography
+- [Flickr](http://www.flickr.com/photos/rsms/) — selected photography (also on [Getty Images](http://www.gettyimages.com/Search/Search.aspx?artist=Rasmus+Andersson))
 - [GitHub](https://github.com/rsms) — code, juicy code
 - [Stuff](http://hunch.se/stuff/) — pretty, funny and boring things I've found or made
 - [Twitter](http://twitter.com/rsms) — short ramblings and a good way to make contact
