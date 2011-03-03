@@ -130,5 +130,21 @@ Read more about [Prototype-based programming](http://en.wikipedia.org/wiki/Proto
 
 I recommend checking out the [website at movelang.org](http://movelang.org/) (albeit being a work in progress) as well as the interactive console, perfect playing around with Move, at [movelang.org/try](http://movelang.org/try/).
 
-For TextMate junkies, there's also a Move bundle with syntax highlighting, commands for running programs, displaying compiled JavaScript code, AST viewer, etc. [Grab a snapshot of @master](https://github.com/rsms/move/zipball/master) and find Move.tmbundle in the "extras" directory. 
+For TextMate junkies, there's also a Move bundle with syntax highlighting, commands for running programs, displaying compiled JavaScript code, AST viewer, etc. [Grab a snapshot of @master](https://github.com/rsms/move/zipball/master) and find Move.tmbundle in the "extras" directory.
 
+### Installing Move for Node.js using NPM
+
+First, you need to have [Node.js](http://nodejs.org/) and [NPM](http://npmjs.org/) installed, then in a terminal:
+
+    $ npm install move
+
+You should now have both the Move library (compiler and runtime) installed as well as a "move" program which can execute Move scripts.
+
+    $ move my-move-program.mv
+
+Or in a Node.js JavaScript file by at one point in time requiring the "move" module (which will enable loading of Move code in Node.js):
+
+    require('move');
+    require('./my-move-program');
+
+Note that you can not embed Move into JavaScript but must separate the code into .mv files.
