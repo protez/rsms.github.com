@@ -28,7 +28,7 @@ Move *compiles down to optimized JavaScript* and can run on any ES3 or higher sp
 
 ## Differences to JavaScript
 
-As mentioned, Move compiles to JavaScript and runs in any ES3 or more modern JavaScript runtime, so comparing Move to JavaScript comes naturally. The first version of Move was actually a superset of JavaScript, allowing pristine JavaScript inside Move. As the language evolved and was simplified, some changes where made (for instance: "^" always meaning "function" and never meaning "xor", introducing the "xor" operator).
+As mentioned, Move compiles to JavaScript and runs in any ES3 or more modern JavaScript runtime, so comparing Move to JavaScript comes naturally. The first version of Move was actually a superset of JavaScript, allowing pristine JavaScript inside Move. As the language evolved and was simplified, some changes where made (for instance: "&#x5e;" always meaning "function" and never meaning "xor", introducing the "xor" operator).
 
 Here's a summary of the differences between Move and JavaScript:
 
@@ -36,7 +36,7 @@ Here's a summary of the differences between Move and JavaScript:
   
   - In JavaScript, there are two different ways to define a function: using the function expression and the function declaration statement, the latter having subtle restrictions. Move only has function expressions and all but strictly anonymous functions are named, providing a richer stack trace when debugging.
   
-  - As functions, or lambdas, are the key awesomeness of JavaScript and is a very light-weight thing, the "function" keyword and boilerplate argument parens just need to be easier to write. Move uses the `^` keyword and does not enforce `()` for argument-less functions.
+  - As functions, or lambdas, are the key awesomeness of JavaScript and is a very light-weight thing, the "function" keyword and boilerplate argument parens just need to be easier to write. Move uses the "&#x5e;" keyword and does not enforce `()` for argument-less functions.
 
   - The last statement in a function is automatically returned (the "product" of calling a function).
 
@@ -65,7 +65,7 @@ Move is **designed for humans** which is the reason for why things like variable
 
 ## Function the ultimate
 
-The biggest difference to most other programming languages is how functions are created, handled and invoked. In Move (and JavaScript) functions are light-weight, first class objects which *should be used*. Writing "name = function name(x, y, z) {..." quickly becomes a tedious task when whipping up code, so Move simplifies the function expression syntax to "name = ^(x, y, z) {...".
+The biggest difference to most other programming languages is how functions are created, handled and invoked. In Move (and JavaScript) functions are light-weight, first class objects which *should be used*. Writing `name = function name(x, y, z) {...` quickly becomes a tedious task when whipping up code, so Move simplifies the function expression syntax to `name = ^(x, y, z) {...`.
 
 An example:
 
@@ -102,9 +102,9 @@ There are other neat effects of the short-hand call style. For instance, conside
 
     print(JSON.stringify("1,2,3,4,5,1,4".split(",")))
 
-Which can instead be written as:
+Which can also be written like this:
 
-    print JSON "1,2,3,4,5,1,4".split(",")
+    print JSON "1,2,3,4,5,1,4".split ","
 
 Move comes with a few but carefully crafted built-in functions (which in true Move style can be manipulated or replaced at will):
 
