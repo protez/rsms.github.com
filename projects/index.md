@@ -4,7 +4,7 @@ num_fb_comments: 3
 title: Projects
 ---
 
-<small>*Not ordered in any sane or particular order*</small>
+<small>*Not in any sane or particular order*</small>
 
 - [Move](http://movelang.org/) — a simple programming language intended for the young generation
 - [Kod](http://kodapp.com/) — programmers' editor for OS X
