@@ -128,7 +128,7 @@ Read more about [Prototype-based programming](http://en.wikipedia.org/wiki/Proto
 
 ## Try to Move
 
-I recommend checking out the [website at movelang.org](http://movelang.org/) (albeit being a work in progress) as well as the interactive console, perfect playing around with Move, at [movelang.org/try](http://movelang.org/try/).
+I recommend checking out the [website at movelang.org](http://movelang.org/) (albeit being a work in progress) as well as the interactive console, perfect for playing around with Move, at [movelang.org/try](http://movelang.org/try/).
 
 For TextMate junkies, there's also a Move bundle with syntax highlighting, commands for running programs, displaying compiled JavaScript code, AST viewer, etc. [Grab a snapshot of @master](https://github.com/rsms/move/zipball/master) and find Move.tmbundle in the "extras" directory.
 

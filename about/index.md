@@ -1,5 +1,6 @@
 ---
 layout: default
+num_fb_comments: 3
 title: About
 ---
 
@@ -15,6 +16,8 @@ More information [can be found on LinkedIn](http://www.linkedin.com/in/rasmusand
 
 [Read more about my work with Spotify &rarr;](/about/spotify/)
 
+I currently work for [Facebook](http://facebook.com/design).
+
 
 ## Elsewhere
 
@@ -29,4 +32,4 @@ You can find me on a variety of social web sites; my username is usually "rsms".
 
 ## Contact
 
-Get in thouch by sending an e-mail to rasmus@notion.se
+Get in touch by sending an electronic mail over the internets to rasmus●notion.se
