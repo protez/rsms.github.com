@@ -1,6 +1,6 @@
 ---
 layout: dirindex
-num_fb_comments: 3
+fb_comments: 3
 title: Projects
 ---
 

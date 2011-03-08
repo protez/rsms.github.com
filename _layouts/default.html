@@ -37,6 +37,10 @@
     <div class="wrapper content">
       {{ content }}
     </div>
+    {% if page.fb_comments %}
+    <h2>Comments</h2>
+    <div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=38027689216&amp;xfbml=1"></script><fb:comments href="http://rsms.me{{ page.url }}" num_posts="{{ page.fb_comments }}" width="640"></fb:comments>
+    {% endif %}
     {% if paginator.page %}
     <div id="paginator">
       {% if paginator.next_page %}
@@ -46,10 +50,6 @@
       <a href="/page{{ paginator.previous_page }}/">Newer entries</a>
       {% endif %}
     </div>
-    {% endif %}
-    {% if page.num_fb_comments %}
-    <h2>Comments</h2>
-    <div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=38027689216&amp;xfbml=1"></script><fb:comments href="http://rsms.me{{ page.url }}" num_posts="{{ page.num_fb_comments }}" width="640"></fb:comments>
     {% endif %}
     <footer>
       <form action="http://www.google.com/cse" id="cse-search-box">

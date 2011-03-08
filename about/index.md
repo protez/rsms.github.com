@@ -1,6 +1,6 @@
 ---
 layout: default
-num_fb_comments: 3
+fb_comments: 3
 title: About
 ---
 

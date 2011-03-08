@@ -126,7 +126,7 @@ div.post {
   margin-left:-999em; padding-left:999em;
   page-break-before: always;
 }
-  div.post:last-child { border-bottom:none; }
+  div.post.single, div.post:last-child { border-bottom:none; }
   div.post h1:first-child { margin-top:0; }
   div.post postamble {
     display:block;
