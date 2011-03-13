@@ -101,7 +101,7 @@ item.moveOut {
     }
     item.generic .object .__name {
       float: left;
-      max-width: 730px;
+      max-width: 680px;
       height: auto;
       min-height: 90px;
       xbackground:#333;
