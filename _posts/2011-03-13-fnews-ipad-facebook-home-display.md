@@ -5,7 +5,7 @@ tags: apple, ipad, facebook
 fb_comments: 25
 ---
 
-This weekend's hack is an iPad app which display your Facebook news feed in a "photo frame" fashion — large text, automatic, simplistic and suitable for passive viewing.
+This weekend's hack is an iPad app which displays your Facebook news feed in a "photo frame" fashion — large text, automatic, simplistic and suitable for passive viewing.
 
 [![Photo](http://farm6.static.flickr.com/5017/5522785997_b9e2ff887d_z.jpg)](http://rsms.me/projects/fnews/)
 
