@@ -345,8 +345,7 @@ $('settings a.login').click ^{
     window.ok2login = false
     setTimeout ^{ window.ok2login = true }, 1000
     //fbhack(true);
-    persmissions = 'read_stream,publish_stream,user_photos,friends_photos,'+
-                   'user_location,friends_location'
+    persmissions = 'read_stream,publish_stream,user_photos,friends_photos'
     
     if (window.navigator.standalone) {
       # redirect for iOS in full-screen mode
