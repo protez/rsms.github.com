@@ -58,7 +58,8 @@ smallMapImageURL = ^(lon, lat) {
 }
 
 fbObjectImageURL = ^(user_id) {
-  "https://graph.facebook.com/"+user_id+"/picture?type=large"
+  "https://graph.facebook.com/"+user_id+"/picture?type=large&access_token="+
+      encodeURIComponent(state.session.access_token)
 }
 
 viewControllers = {
