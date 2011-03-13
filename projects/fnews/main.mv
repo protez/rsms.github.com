@@ -34,7 +34,7 @@ viewControllers = {
     }
     
     if (item.large_picture) {
-      view.find('content img').show().attr('src', item.picture)
+      view.find('content img').show().attr('src', item.large_picture)
       view.find('content .__description').css('max-width', '480px')
     } else {
       view.find('content img').hide()
