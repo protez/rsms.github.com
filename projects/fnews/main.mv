@@ -173,7 +173,7 @@ viewControllers = {
       print 'Liking...'
       FB.api '/'+item.id+'/likes', 'post', {}, ^(response) {
         if (response.error) {
-          alert('"Like" failed: ', response.error.message)
+          alert '"Like" failed: '+response.error.message
         } else {
           print 'Liked', response
         }
