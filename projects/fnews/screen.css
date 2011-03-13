@@ -89,12 +89,15 @@ item.moveOut {
       height: 90px;
       display: inline-block;
     }
+    item .object img {
+      float: left;
+      margin-right:20px;
+    }
     item .object h2 {
       color: #aaa;
       font-weight: normal;
       font-size: 62px;
       line-height:90px;
-      margin-left:20px;
     }
     item.generic .object .__name {
       float: left;
@@ -104,9 +107,6 @@ item.moveOut {
       xbackground:#333;
     }
       item.generic .object .__name.shrunken { overflow:hidden; }
-    item.generic .object img {
-      float: left;
-    }
   item content {
     display: block;
     width: 1000px;
