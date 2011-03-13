@@ -20,7 +20,7 @@ viewControllers = {
     item.created_time = created.toTimeString().split(':')[:2].join(':')
     
     # Instagram specifics
-    if (item.application && item.application.id == 124024574287414) {
+    if (item.application && item.application.id == '124024574287414') {
       item.large_picture = item.link + 'media'
     }
     
