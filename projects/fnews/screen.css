@@ -119,8 +119,8 @@ item.moveOut {
     item content img {
       margin-right: 30px;
       margin-top: -10px;
-      height: 480px;
-      max-width: 480px;
+      max-height: 480px;
+      max-width: 640px;
       vertical-align: top;
     }
     item content .__description {

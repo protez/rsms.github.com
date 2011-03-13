@@ -121,7 +121,7 @@ viewControllers = {
     
     # If there's a name but no description, assign name to description
     hasDescription = item.description && Text(item.description).trim() != ''
-    if (item.name && !hasDescription) {
+    if (item.name && !hasDescription && item.type != 'photo') {
       item.description = item.name
     }
 
