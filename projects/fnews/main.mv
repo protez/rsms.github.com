@@ -57,8 +57,13 @@ smallMapImageURL = ^(lon, lat) {
       "&sensor=false"
 }
 
-fbObjectImageURL = ^(user_id) {
+fbUserImageURL = ^(user_id) {
   "https://graph.facebook.com/"+user_id+"/picture?type=large&access_token="+
+      encodeURIComponent(state.session.access_token)
+}
+
+fbPhotoImageURL = ^(object_id) {
+  "https://graph.facebook.com/"+object_id+"/picture?type=normal&access_token="+
       encodeURIComponent(state.session.access_token)
 }
 
@@ -81,14 +86,14 @@ viewControllers = {
     if (item.type == 'status' && !item.name) {
       # Use the sender's name and picture as the item name and picture
       item.name = item.from.name
-      item.picture = fbObjectImageURL item.from.id
+      item.picture = fbUserImageURL item.from.id
     }
     
     # Photo item
     if (item.type == 'photo') {
       # Get a large image from the graph API if the photo is in the graph
       if (item.object_id)
-        item.large_picture = fbObjectImageURL item.object_id
+        item.large_picture = fbPhotoImageURL item.object_id
       else
         item.large_picture = item.picture
 
@@ -154,7 +159,7 @@ viewControllers = {
     # Render sender's picture and name
     user = item.from
     view.find('user picture').css('background-image',
-        "url('"+fbObjectImageURL(user.id)+"')")
+        "url('"+fbUserImageURL(user.id)+"')")
     view.find('user .name').text(user.name)
     
     # Shrink name and description until they fit in the view
@@ -340,11 +345,13 @@ $('settings a.login').click ^{
     window.ok2login = false
     setTimeout ^{ window.ok2login = true }, 1000
     //fbhack(true);
+    persmissions = 'read_stream,publish_stream,user_photos,friends_photos,'+
+                   'user_location,friends_location'
     
     if (window.navigator.standalone) {
       # redirect for iOS in full-screen mode
       document.location.href = 'https://www.facebook.com/dialog/oauth/?'+
-          'scope=read_stream,publish_stream'+
+          'scope='+persmissions+
           '&client_id='+FB._apiKey+
           '&redirect_uri='+encodeURIComponent(baseURL)+
           '&response_type=token'
@@ -354,7 +361,7 @@ $('settings a.login').click ^{
         print 'FB.login ->', response
         if (response.session) print 'auth success'; else print 'auth fail'
         updateLoginStatus response.session
-      }, {perms:'read_stream,publish_stream'})
+      }, {perms:persmissions})
     }
     
   }
