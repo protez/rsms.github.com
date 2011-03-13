@@ -172,7 +172,11 @@ item.moveOut {
       float: right;
       width: 100px;
       background: transparent url('like.png') no-repeat scroll center center;
-      border-left: 1px solid #333;
+      opacity: 0.5;
+      -webkit-transition: opacity 0.5s ease-in-out;
+    }
+    item footer a.like.likes {
+      opacity: 1.0;
     }
       
 
@@ -188,7 +192,7 @@ a.settings-tab {
   border-bottom-left-radius: 5px;
   z-index:9;
   opacity:0.15;
-  -webkit-transition: all 0.15s ease-in;
+  -webkit-transition: opacity 0.15s ease-in;
 }
 a.settings-tab.active {
   opacity:1.0;

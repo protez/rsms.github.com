@@ -162,13 +162,7 @@ viewControllers = {
       shrink view.find('.__description'), 480
     }
     
-    # TODO: This like thing needs _a lot_ of work
-    #
-    # - Currently the "like" is performed as if the app itself say "I like"
-    # - We really want the user to "like", not the app
-    # - Doing so requires authing the user (again?) to aquire the users oauth
-    #   access_token
-    #
+    # "Like" button
     view.find('a.like').click ^{
       print 'Liking...'
       FB.api '/'+item.id+'/likes', 'post', {}, ^(response) {
@@ -176,6 +170,7 @@ viewControllers = {
           alert '"Like" failed: '+response.error.message
         } else {
           print 'Liked', response
+          view.find('a.like').addClass 'likes'
         }
       }
       false
