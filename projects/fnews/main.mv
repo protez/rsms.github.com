@@ -172,10 +172,11 @@ viewControllers = {
     view.find('a.like').click ^{
       print 'Liking...'
       FB.api '/'+item.id+'/likes', 'post', {}, ^(response) {
-        if (response.error)
-          print 'Failed to like', response
-        else
+        if (response.error) {
+          alert('"Like" failed: ', response.error.message)
+        } else {
           print 'Liked', response
+        }
       }
       false
     }
@@ -348,7 +349,7 @@ $('settings a.login').click ^{
     if (window.navigator.standalone) {
       # redirect for iOS in full-screen mode
       document.location.href = 'https://www.facebook.com/dialog/oauth/?'+
-          'scope=read_stream'+
+          'scope=read_stream,publish_stream'+
           '&client_id='+FB._apiKey+
           '&redirect_uri='+encodeURIComponent(baseURL)+
           '&response_type=token'
@@ -358,7 +359,7 @@ $('settings a.login').click ^{
         print 'FB.login ->', response
         if (response.session) print 'auth success'; else print 'auth fail'
         updateLoginStatus response.session
-      }, {perms:'read_stream'})
+      }, {perms:'read_stream,publish_stream'})
     }
     
   }
