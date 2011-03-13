@@ -96,14 +96,15 @@ item.moveOut {
       line-height:90px;
       margin-left:20px;
     }
-    item.link .object .__name {
+    item.generic .object .__name {
       float: left;
       max-width: 730px;
       height: auto;
       min-height: 90px;
       xbackground:#333;
     }
-    item.link .object img {
+      item.generic .object .__name.shrunken { overflow:hidden; }
+    item.generic .object img {
       float: left;
     }
   item content {
@@ -128,6 +129,11 @@ item.moveOut {
       max-width:480px;
       xbackground:#222;
     }
+    item content .__description.shrunken { overflow:hidden; }
+      item content .__description em {
+        font-style: normal;
+        color: #888;
+      }
   item footer {
     display: block;
     width: 1024px;
