@@ -7,6 +7,7 @@ title: Projects
 <small>*Not in any sane or particular order*</small>
 
 - [Move](http://movelang.org/) — a simple programming language intended for the young generation
+- [Fnews](/projects/fnews/) — dust off your iPad and use it as a pretty Facebook news feed "photo frame"
 - [Kod](http://kodapp.com/) — programmers' editor for OS X
 - [Spotify](/about/spotify/) — the best music service in the world
 - [Spotni.cc](http://spotni.cc/) — Spotify playlist helper
