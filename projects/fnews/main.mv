@@ -171,7 +171,7 @@ viewControllers = {
     #
     view.find('a.like').click ^{
       print 'Liking...'
-      FB.api '/'+item.id+'/likes', 'post', params, ^(response) {
+      FB.api '/'+item.id+'/likes', 'post', {}, ^(response) {
         if (response.error)
           print 'Failed to like', response
         else
