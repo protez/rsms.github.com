@@ -124,7 +124,7 @@ item.moveOut {
     }
     item content .__description {
       display: inline-block;
-      font-size: 100px;
+      font-size: 150px;
       max-width:480px;
       xbackground:#222;
     }
