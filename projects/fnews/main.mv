@@ -28,6 +28,10 @@ viewControllers = {
         (!item.description || Text(item.description).trim() == '')) {
       item.description = item.name
     }
+    
+    if (item.message && Text(item.message).trim() != '') {
+      item.description = item.message
+    }
 
     for (k in item) {
       view.find('.__'+k).text item[k]
