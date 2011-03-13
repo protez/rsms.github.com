@@ -127,7 +127,7 @@ viewControllers = {
     
     # If there's a message, it's appended to or replaces description
     if (item.message && Text(item.message).trim() != '') {
-      if (hasDescription) {
+      if (hasDescription && item.description != item.message) {
         e = document.createElement 'em'
         e.appendChild document.createTextNode ' — '+item.message
         view.find('.__description').append e
