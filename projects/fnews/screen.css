@@ -157,8 +157,9 @@ item.moveOut {
       }
       item footer user picture {
         width:100px;
-        background: #222 no-repeat scroll center top;
-        background-size: 100px auto;
+        background: #222 url('like.png') no-repeat scroll center top;
+        -webkit-background-size: 100%;
+        background-size: 100%;
         border: none !important;
       }
       item footer user .name {

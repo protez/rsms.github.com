@@ -84,6 +84,11 @@ fbUserImageURL = ^(user_id) {
       encodeURIComponent(state.session.access_token)
 }
 
+fbSmallUserImageURL = ^(user_id) {
+  "https://graph.facebook.com/"+user_id+"/picture?type=square&access_token="+
+      encodeURIComponent(state.session.access_token)
+}
+
 fbPhotoImageURL = ^(object_id) {
   "https://graph.facebook.com/"+object_id+"/picture?type=normal&access_token="+
       encodeURIComponent(state.session.access_token)
@@ -196,7 +201,7 @@ viewControllers = {
     # Render sender's picture and name
     user = item.from
     view.find('user picture').css('background-image',
-        "url('"+fbUserImageURL(user.id)+"')")
+        "url('"+fbSmallUserImageURL(user.id)+"')")
     view.find('user .name').text(user.name)
     
     # Shrink name and description until they fit in the view
@@ -295,6 +300,9 @@ updateNewsFeed = ^{
     if (items.length) {
       print '/me/home -> ('+items.length+')', items
       state.lastFeedItemTimestamp = items[0].created_time
+    } else if (!$('item.moveIn').length) {
+      # Nothing to display
+      print 'TODO: "Waiting for your friends to post something..."'
     }
 
     # Filter out anything other than links
