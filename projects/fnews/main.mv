@@ -25,30 +25,52 @@ mapImageStyleParam = ^(style){
   style.join '%7C'
 }
 
-mapImageURL = ^(lon, lat) {
+
+
+mapImageURL = ^(lat, lon) {
   "http://maps.google.com/maps/api/staticmap?"+
-      "markers=color:yellow%7C"+lon+","+lat+
+      "markers=color:0xff3d13%7C"+lat+","+lon+
       "&style="+mapImageStyleParam({
         feature: "all",
         element: "all",
         lightness: 0,
-        gamma: 0.3,
+        gamma: 0.2,
         saturation: -60
       })+
-      "&zoom=12"+
+      "&style="+mapImageStyleParam({
+        feature: "road.highway",
+        lightness: 10,
+        saturation: 60,
+        hue: '0x33ccff'
+      })+
+      "&style="+mapImageStyleParam({
+        element: "labels", visibility: 'on', lightness: -20,
+      })+
+      "&style="+mapImageStyleParam({
+        feature: "road.local", visibility: 'simplified', lightness: -60,
+        saturation: 10, hue: '0xf6ff00'
+      })+
+      "&style="+mapImageStyleParam({
+        feature: "road.arterial", visibility: 'simplified', lightness: 15,
+        saturation: -50, hue: '0x00ff33'
+      })+
+      "&style="+mapImageStyleParam({
+        feature: "feature:transit", hue: '0x00ff00', saturation: 60, gamma: 0.7,
+      })+
+      "&zoom=15"+
       "&size=480x480"+
       "&maptype=road"+
       "&sensor=false"
 }
 
-smallMapImageURL = ^(lon, lat) {
+smallMapImageURL = ^(lat, lon) {
   "http://maps.google.com/maps/api/staticmap?"+
-      "markers=color:yellow|size:small|"+lon+","+lat+
+      "markers=color:0xFF3D13|size:small|"+lat+","+lon+
       "&style="+mapImageStyleParam({
         feature: "all",
         element: "all",
         lightness: 0,
-        gamma: 0.3,
+        gamma: 0.1,
         saturation: -60
       })+
       "&zoom=1"+
@@ -119,10 +141,25 @@ viewControllers = {
       }
     }
     
+    # Check-in
+    if (item.type == 'checkin') {
+      lat = item.place.location.latitude
+      lon = item.place.location.longitude
+      item.large_picture = mapImageURL lat, lon
+      item.picture = smallMapImageURL lat, lon
+    }
+    
     # If there's a name but no description, assign name to description
     hasDescription = item.description && Text(item.description).trim() != ''
-    if (item.name && !hasDescription && item.type != 'photo') {
-      item.description = item.name
+    if (!hasDescription && item.type != 'photo') {
+      if (item.caption) {
+        item.description = item.caption
+        hasDescription = true
+      } else if (item.name) {
+        item.description = item.name
+      } else if (item.type == 'link') {
+        item.description = item.link
+      }
     }
 
     # Make text nodes of all properties in the view
@@ -167,17 +204,37 @@ viewControllers = {
       shrink view.find('.__description'), 480
     }
     
+    # Does the current user already like this?
+    if (item.likes && item.likes.data &&
+        item.likes.data.some ^(item) { item.id == state.session.uid } ) {
+      view.find('a.like').addClass 'likes'
+    }
+    
     # "Like" button
+    likeRequestInTransit = false
     view.find('a.like').click ^{
-      print 'Liking...'
-      FB.api '/'+item.id+'/likes', 'post', {}, ^(response) {
-        if (response.error) {
-          alert '"Like" failed: '+response.error.message
-        } else {
-          print 'Liked', response
+      # Do nothing if we are currently processing a click
+      if (likeRequestInTransit)
+        return
+      
+      if ($(this).hasClass 'likes') {
+        # User already likes -- action is "unlike"
+        FB.api '/'+item.id+'/likes', 'delete', {}, ^(response) {
+          likeRequestInTransit = false
+          if (response.error)
+            return alert '"Unlike" failed: '+response.error.message
+          view.find('a.like').removeClass 'likes'
+        }
+      } else {
+        # User does not like -- action is "like"
+        FB.api '/'+item.id+'/likes', 'post', {}, ^(response) {
+          likeRequestInTransit = false
+          if (response.error)
+            return alert '"Like" failed: '+response.error.message
           view.find('a.like').addClass 'likes'
         }
       }
+      likeRequestInTransit = true
       false
     }
     
@@ -224,21 +281,21 @@ updateNewsFeed = ^{
   }
   
   # Types of items that we care about -- any other kind is ignored
-  acceptedItemTypes = ['link', 'status', 'photo']
+  acceptedItemTypes = ['link', 'status', 'photo', 'checkin']
 
   # Add "since" if applicable
   if (state.lastFeedItemTimestamp)
     params.since = state.lastFeedItemTimestamp
 
   FB.api '/me/home', params, ^(response) {
-    print '/me/home ->', response
     $('spinner').addClass 'hidden'
     items = response.data
-    #$('body').css({'font-family': 'monospace', 'white-space':'pre'}).text JSON items
     
     # Keep track of last timestamp
-    if (items.length)
+    if (items.length) {
+      print '/me/home -> ('+items.length+')', items
       state.lastFeedItemTimestamp = items[0].created_time
+    }
 
     # Filter out anything other than links
     items = items.filter ^(item) { acceptedItemTypes.indexOf(item.type) != -1 }
@@ -258,7 +315,7 @@ updateNewsFeed = ^{
 
 onUserDidChange = ^{
   updateUserInfo()
-  if (state.session) onUserDidLogin(); else onUserDidLogout();
+  if (state.session) onUserDidLogin(); else onUserDidLogout()
 }
 
 onUserDidLogout = ^{
@@ -330,10 +387,10 @@ FB.getLoginStatus ^(response) {
   print 'FB.getLoginStatus ->', response
   updateLoginStatus response.session
 }
-FB.Event.subscribe('auth.sessionChange', ^(response) {
+FB.Event.subscribe 'auth.sessionChange', ^(response) {
   print 'event: auth.sessionChange ->', response
   updateLoginStatus response.session
-});
+}
 
 L = document.location
 baseURL = L.protocol + '//' + L.host + L.pathname + L.search
@@ -344,8 +401,8 @@ $('settings a.login').click ^{
   if (window.ok2login) {
     window.ok2login = false
     setTimeout ^{ window.ok2login = true }, 1000
-    //fbhack(true);
-    persmissions = 'read_stream,publish_stream,user_photos,friends_photos'
+    persmissions = 'read_stream,publish_stream,user_photos,friends_photos,'+
+                   'user_checkins,friends_checkins'
     
     if (window.navigator.standalone) {
       # redirect for iOS in full-screen mode
@@ -396,13 +453,13 @@ window.onorientationchange = ^{
 window.onorientationchange()
 
 
-/*keys = [];
+/*keys = []
 for (k in window) keys.push ""+k
 keys.sort()
 for (k=0; k<keys.length; k++) {
   $('#window').append '<li><b>'+keys[k]+'</b>: '+window[keys[k]]+'</li>'
 }
-keys = [];
+keys = []
 for (k in document) keys.push ""+k
 keys.sort()
 for (k=0; k<keys.length; k++) {

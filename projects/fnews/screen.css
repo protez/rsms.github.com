@@ -173,7 +173,7 @@ item.moveOut {
       width: 100px;
       background: transparent url('like.png') no-repeat scroll center center;
       opacity: 0.5;
-      -webkit-transition: opacity 0.5s ease-in-out;
+      -webkit-transition: opacity 0.2s ease-in-out;
     }
     item footer a.like.likes {
       opacity: 1.0;
