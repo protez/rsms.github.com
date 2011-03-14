@@ -6,6 +6,19 @@ state = {
   activeView: null,
 }
 
+# Settings, backed by localStorage
+settings = ^(key, value) {
+  defaults = {}
+  if (value == undefined) {
+    if (key in localStorage && (value = localStorage[key]))
+      return JSON.parse value
+    else
+      return defaults[key]
+  } else {
+    localStorage[key] = JSON value
+  }
+}
+
 # Shrink font size until a view is at least *high*
 shrink = ^(view, height, callback){
   if (view.height() <= height) {
@@ -139,7 +152,7 @@ viewControllers = {
     
       # Foursquare
       if (item.application && item.application.id == '86734274142') {
-        if (m = /mapproxy%2F([0-9\.]+)%2F([0-9\.]+)%2Fmap/.exec picture) {
+        if (m = /mapproxy%2F([0-9\.]+)%2F([0-9\.]+)%2Fmap/.exec item.picture) {
           item.large_picture = mapImageURL m[1], m[2]
           item.picture = smallMapImageURL m[1], m[2]
         }
