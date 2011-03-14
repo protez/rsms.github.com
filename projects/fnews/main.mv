@@ -8,7 +8,9 @@ state = {
 
 # Settings, backed by localStorage
 settings = ^(key, value) {
-  defaults = {}
+  defaults = {
+    itemTypes: ['link', 'status', 'photo', 'checkin'],
+  }
   if (value == undefined) {
     if (key in localStorage && (value = localStorage[key]))
       return JSON.parse value
@@ -165,6 +167,14 @@ viewControllers = {
       lon = item.place.location.longitude
       item.large_picture = mapImageURL lat, lon
       item.picture = smallMapImageURL lat, lon
+
+      # Facebook-style formatting for check-ins with a message
+      if (item.message) {
+        name = item.name
+        item.name = item.caption || item.description
+        item.description = item.message
+        item.message = "at " + name
+      }
     }
     
     # If there's a name but no description, assign name to description
@@ -297,9 +307,6 @@ updateNewsFeed = ^{
     limit: 25,
     date_format: 'r',
   }
-  
-  # Types of items that we care about -- any other kind is ignored
-  acceptedItemTypes = ['link', 'status', 'photo', 'checkin']
 
   # Add "since" if applicable
   if (state.lastFeedItemTimestamp)
@@ -319,7 +326,8 @@ updateNewsFeed = ^{
     }
 
     # Filter out anything other than links
-    items = items.filter ^(item) { acceptedItemTypes.indexOf(item.type) != -1 }
+    itemTypes = settings 'itemTypes'
+    items = items.filter ^(item) { itemTypes.indexOf(item.type) != -1 }
 
     # Update items state if any new items have appeared
     if (items.length) {
