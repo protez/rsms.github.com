@@ -157,8 +157,8 @@ item.moveOut {
       }
       item footer user picture {
         width:100px;
-        background: #222 url('https://graph.facebook.com/605776470/picture?type=large')
-            no-repeat scroll center center;
+        background: #222 no-repeat scroll center top;
+        background-size: 100px auto;
         border: none !important;
       }
       item footer user .name {
