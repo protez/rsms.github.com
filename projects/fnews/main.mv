@@ -329,8 +329,8 @@ updateNewsFeed = ^{
       onNewFeedItems()
     }
     
-    # Schedule next query to trigger in 1 minute
-    state.updateNewsFeedTimer = setTimeout updateNewsFeed, 60000
+    # Schedule next query to trigger in 30 seconds
+    state.updateNewsFeedTimer = setTimeout updateNewsFeed, 30000
   }
 }
 
