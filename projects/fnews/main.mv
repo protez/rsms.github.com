@@ -138,6 +138,7 @@ viewControllers = {
         item.large_picture = fbPhotoImageURL item.object_id
       else
         item.large_picture = item.picture
+      item.picture = null
 
       # Make sure "name" and "description" parameters are defined
       if (!item.name) item.name = 'Photo'
@@ -430,13 +431,13 @@ $('settings a.login').click ^{
   if (window.ok2login) {
     window.ok2login = false
     setTimeout ^{ window.ok2login = true }, 1000
-    persmissions = 'read_stream,publish_stream,user_photos,friends_photos,'+
-                   'user_checkins,friends_checkins'
+    permissions = 'read_stream,publish_stream,user_photos,friends_photos,'+
+                  'user_checkins,friends_checkins'
     
     if (window.navigator.standalone) {
       # redirect for iOS in full-screen mode
       document.location.href = 'https://www.facebook.com/dialog/oauth/?'+
-          'scope='+persmissions+
+          'scope='+permissions+
           '&client_id='+FB._apiKey+
           '&redirect_uri='+encodeURIComponent(baseURL)+
           '&response_type=token'
@@ -446,7 +447,7 @@ $('settings a.login').click ^{
         print 'FB.login ->', response
         if (response.session) print 'auth success'; else print 'auth fail'
         updateLoginStatus response.session
-      }, {perms:persmissions})
+      }, {perms:permissions})
     }
     
   }
