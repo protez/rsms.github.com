@@ -244,6 +244,17 @@ footer {
   background: transparent url('end-floral.png') no-repeat scroll bottom center;
 }
 
+/* Carbon ads */
+#carbonads-container {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+  #carbonads-container .carbonad { border-width: 1px !important; }
+  #carbonads-container .carbonad-text, #carbonads-container .carbonad-tag {
+    font-family: 'lucida grande', helvetica, sans-serif !important;
+  }
+
 /* device specifics */
 
 /* medium-res devices (e.g. ipad and iphone) */
@@ -251,6 +262,28 @@ footer {
   html { width:750px; overflow:hidden; }
   pre { overflow:scroll; white-space:pre-wrap; }
   pre, code, tt { font-size:0.95em; }
+}
+
+/* devices like laptops and regular computers (including ipad but not
+   iphone) Note that iOS with retina display device calculates with a 1/2
+   resolution due to the concept of "scale", thus an iPhone 4 triggers for
+   480x230px rather than the actual 960x480 pixels. This is a good thing.
+*/
+@media only screen and (min-device-width: 480px) {
+  @font-face {
+    font-family: 'M+ 1m';
+    font-style: normal;
+    font-weight: 300;
+    src: local('M+ 1m light'), local('mplus-1m-light'),
+         url('http://hunch.se/style/fonts/mplus-1m-light.ttf') 
+         format('truetype');
+  }
+  pre, code, tt { font-family: 'M+ 1m', monospace; }
+}
+
+/* medium-res devices (e.g. ipad but not iphone) */
+#sidebar { display:none; }
+@media only screen and (min-device-width: 480px) and (max-device-width: 1024px) {
 }
 
 /* medium-res landscape devices (e.g. ipad but not iphone) */
@@ -267,21 +300,14 @@ footer {
     top:0;
   }
   html { zoom:60%; }
+  #carbonads-container { display: block; }
 }
 
-/* devices like laptops and regular computers (including ipad but not
-   iphone) Note that iOS with retina display device calculates with a 1/2
-   resolution due to the concept of "scale", thus an iPhone 4 triggers for
-   480x230px rather than the actual 960x480 pixels. This is a good thing.
-*/
-@media (min-device-width: 480px) {
-  @font-face {
-    font-family: 'M+ 1m';
-    font-style: normal;
-    font-weight: 300;
-    src: local('M+ 1m light'), local('mplus-1m-light'),
-         url('http://hunch.se/style/fonts/mplus-1m-light.ttf') 
-         format('truetype');
+/* iPhone */
+@media only screen and (max-device-width: 1024px) {
+  #carbonads-container {
+    display: block;
+    position: relative;
+    margin: 1em auto;
   }
-  pre, code, tt { font-family: 'M+ 1m', monospace; }
 }
