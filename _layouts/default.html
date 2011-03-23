@@ -40,7 +40,7 @@
     </div>
     {% if page.fb_comments %}
     <h2>Comments</h2>
-    <div id="fb-root"></div><script>var s;if(document.location.hostname === 'rsms.me')s=document.createElement('script');s.async=true;s.src="http://connect.facebook.net/en_US/all.js#appId=38027689216&amp;xfbml=1";document.getElementsByTagName('head')[0].appendChild(s);</script><fb:comments href="http://rsms.me{{ page.url }}" num_posts="{{ page.fb_comments }}" width="640"></fb:comments>
+    <div id="fb-root"></div><script>var s;if(document.location.hostname === 'rsms.me')s=document.createElement('script');s.async=true;s.src="http://connect.facebook.net/en_US/all.js#appId=38027689216&xfbml=1";document.getElementsByTagName('head')[0].appendChild(s);</script><fb:comments href="http://rsms.me{{ page.url }}" num_posts="{{ page.fb_comments }}" width="640"></fb:comments>
     {% endif %}
     {% if paginator.page %}
     <div id="paginator">
