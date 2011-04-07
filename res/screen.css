@@ -259,6 +259,7 @@ footer {
 
 /* medium-res devices (e.g. ipad and iphone) */
 @media only screen and (max-device-width: 1024px) {
+  /* To constrain pre-formatted text to body width */
   html { width:750px; overflow:hidden; }
   pre { overflow:scroll; white-space:pre-wrap; }
   pre, code, tt { font-size:0.95em; }
