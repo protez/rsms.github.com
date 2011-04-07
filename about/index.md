@@ -7,7 +7,7 @@ title: About
 <img src="http://farm6.static.flickr.com/5290/5381896075_715a0714dd_m.jpg" align="right">
 # About Rasmus
 
-My name is Rasmus Andersson. I'm a Swedish designer with a passion for technology who have worked with a number of different companies since 1998 — large and small, as a partner or for others — including 
+My name is Rasmus Andersson. I'm a Swedish designer in San Francisco with a passion for technology who have worked with a number of different companies since 1998 — large and small, as a partner or for others — including 
 [Spotify](http://www.spotify.com/),
 [Spray](http://www.spray.se/),
 [Lear Corporation](http://lear.com/) and
@@ -16,7 +16,7 @@ More information [can be found on LinkedIn](http://www.linkedin.com/in/rasmusand
 
 [Read more about my work with Spotify &rarr;](/about/spotify/)
 
-I currently work for [Facebook](http://facebook.com/design).
+I work for & ♥ [Facebook](http://facebook.com/design).
 
 
 ## Elsewhere
