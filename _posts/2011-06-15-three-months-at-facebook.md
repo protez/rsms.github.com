@@ -21,6 +21,7 @@ At the end of this year we will be moving into our own little town -- a new tota
 
 ![](http://farm3.static.flickr.com/2111/5821627543_0d25a9079d_z.jpg)
 
+You can find a couple of images from my first two months in ["My first two months"...](https://www.facebook.com/design/posts/226256324053962)
 
 ## Moving to San Francisco
 
