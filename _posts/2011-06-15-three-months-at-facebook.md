@@ -13,13 +13,13 @@ This little textual outlet of mine has been silent for a while, mainly because I
 
 What really blows my mind about this place is how small it feels, yet we are thousands of people working at Facebook. The organizational structure is very flat and most responsibility is distributed, which is a very interesting concept. I work as a product designer--in our small but amazing Product team--meaning I do everything from conceptual development and management, to interaction design and graphic design.
 
-We generally have one product designer and one product manager pair up to form a "mini product team" in each project. This gives me the feeling close to that of a small start-up -- "let's do this together!".
-
 ![Chris, Brandon, Francis and Joey](http://farm6.static.flickr.com/5197/5836910200_1d2ee58216_z.jpg)
 
-At the end of this year we will be moving into our own little town -- a new totally awesome campus in Menlo Park -- which is currently in it's last stages of construction.
+We generally have one product designer and one product manager pair up to form a "mini product team" in each project. This gives me the feeling close to that of a small start-up -- "let's do this together!".
 
 ![](http://farm3.static.flickr.com/2111/5821627543_0d25a9079d_z.jpg)
+
+At the end of this year we will be moving into our own little town -- a new totally awesome campus in Menlo Park -- which is currently in it's last stages of construction.
 
 You can find a couple of images from my first two months in ["My first two months"...](https://www.facebook.com/design/posts/226256324053962)
 
