@@ -2,7 +2,7 @@
 * { margin:0; padding:0; font-family:inherit; }
 body {
   background:white; color:#222;
-  font:13px georgia, serif;
+  font:14px georgia, serif;
   line-height:1.4;
   font-weight: lighter;
   margin: 0 auto;
@@ -19,7 +19,7 @@ strong { font-weight:bold; }
 hr { height:1px; border:none; background-color:#ddd; }
 
 h1,h2,h3,h4 {
-  font-family: 'Helvetica Neue', helvetica, sans-serif;
+  font-family: helvetica, sans-serif;
   color:#333;
   margin: 1.618em 0 1em 0;
   -webkit-font-smoothing: antialiased;
@@ -128,6 +128,8 @@ div.post {
 }
   div.post.single, div.post:last-child { border-bottom:none; }
   div.post h1:first-child { margin-top:0; }
+  div.post.single h1:first-child { font-size:22px; }
+  div.post h2.title { font-size:22px; }
   div.post postamble {
     display:block;
     margin-bottom:1em;
@@ -279,7 +281,7 @@ footer {
          url('http://hunch.se/style/fonts/mplus-1m-light.ttf') 
          format('truetype');
   }
-  pre, code, tt { font-family: 'M+ 1m', monospace; }
+  pre, code, tt { font-family: 'M+ 1m', monospace; font-size:13px; }
 }
 
 /* medium-res devices (e.g. ipad but not iphone) */
