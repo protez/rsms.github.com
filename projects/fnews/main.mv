@@ -1,4 +1,5 @@
-debug = document.location.hostname == 'rmbp2.local'
+if (!(debug = document.location.hostname == 'localhost'))
+  debug = debug = document.location.hostname == 'rsmsmbp15.local'
 
 state = {
   newsFeedItems: [],  # fifo queue (oldest first, newest last)
