@@ -67,5 +67,16 @@
     {% include prettify.html %}
     {% include analytics.html %}
     <div id="carbonads-container"><div class="carbonad"><div id="azcarbon"></div><script type="text/javascript">if(document.location.hostname === 'rsms.me'){var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = "http://engine.carbonads.com/z/12122/azcarbon_2_1_0_VERT"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);}</script></div></div>
+    <script>
+      if (window.navigator.userAgent.indexOf(' iOS ') != -1) {
+        var className = 'ios';
+        if (window.navigator.userAgent.indexOf(' iPad ') != -1) {
+          className += ' ipad';
+        } else if (window.navigator.userAgent.indexOf(' iPhone ') != -1) {
+          className += ' iphone';
+        }
+        document.documentElement.className = className; // <html class="...
+      }
+    </script>
   </body>
 </html>

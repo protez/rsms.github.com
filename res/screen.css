@@ -263,9 +263,9 @@ footer {
 /* medium-res devices (e.g. ipad and iphone) */
 @media only screen and (max-device-width: 1024px) {
   /* To constrain pre-formatted text to body width */
-  html { width:750px; overflow:hidden; }
-  pre { overflow:scroll; white-space:pre-wrap; }
-  pre, code, tt { font-size:0.95em; }
+  html.ios { width:750px; overflow:hidden; }
+  html.ios pre { overflow:scroll; white-space:pre-wrap; }
+  html.ios pre, code, tt { font-size:0.95em; }
 }
 
 /* devices like laptops and regular computers (including ipad but not
@@ -293,7 +293,7 @@ footer {
 /* medium-res landscape devices (e.g. ipad but not iphone) */
 #sidebar { display:none; }
 @media only screen and (min-device-width: 480px) and (max-device-width: 1024px) and (orientation:landscape) {
-  #sidebar {
+  html.ipad #sidebar {
     display:block;
     width:350px;
     height:100%;
@@ -303,13 +303,13 @@ footer {
     right:0;
     top:0;
   }
-  html { zoom:60%; }
-  #carbonads-container { display: block; }
+  html.ipad { zoom:60%; }
+  html.ipad #carbonads-container { display: block; }
 }
 
 /* iPhone */
 @media only screen and (max-device-width: 1024px) {
-  #carbonads-container {
+  html.iphone #carbonads-container {
     display: block;
     position: relative;
     margin: 1em auto;
