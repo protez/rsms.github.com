@@ -84,6 +84,7 @@ header {
 /* main content */
 body div.content {}
   body div.content *[align=right] { margin-left:1em; margin-bottom:1em; }
+  body div.content *[align=left] { margin-right:1em; margin-bottom:1em; }
   body div.content img { max-width:100%; }
 
   /*div.post strong { font-weight:inherit; background:#FBF4B1; }*/
