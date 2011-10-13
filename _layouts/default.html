@@ -32,6 +32,15 @@
     {% endif %}
   </head>
   <body{% if page.wide_layout %} class="wide"{% endif %}>
+    <script>
+      if (window.navigator.userAgent.indexOf(' iPad ') != -1) {
+        document.documentElement.className = 'ios ipad';
+        window.rsmsHostIsIOS = 'ipad';
+      } else if (window.navigator.userAgent.indexOf(' iPhone ') != -1) {
+        document.documentElement.className = 'ios iphone';
+        window.rsmsHostIsIOS = 'iphone';
+      }
+    </script>
     <iframe id="sidebar"></iframe>
     <header>
       <ul class="navigation">
@@ -79,19 +88,5 @@
     
     {% include prettify.html %}
     {% include analytics.html %}
-    <script>
-      if (window.navigator.userAgent.indexOf(' iOS ') != -1) {
-        var className = 'ios';
-        window.rsmsHostIsIOS = 'generic';
-        if (window.navigator.userAgent.indexOf(' iPad ') != -1) {
-          className += ' ipad';
-          window.rsmsHostIsIOS = 'ipad';
-        } else if (window.navigator.userAgent.indexOf(' iPhone ') != -1) {
-          className += ' iphone';
-          window.rsmsHostIsIOS = 'iphone';
-        }
-        document.documentElement.className = className; // <html class="...
-      }
-    </script>
   </body>
 </html>

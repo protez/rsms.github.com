@@ -11,6 +11,9 @@ if (typeof XMLHttpRequest == 'undefined' || !document.querySelector) {
   return
 }
 
+document.body.innerHTML = 'window.rsmsHostIsIOS: '+window.rsmsHostIsIOS
+return
+
 if (window.rsmsHostIsIOS) {
   showIncompatibleMessage 'Touch screens are not yet supported. Redirecting...'
   document.location.href = 'http://www.flickr.com/photos/rsms/'
