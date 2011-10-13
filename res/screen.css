@@ -9,8 +9,13 @@ body {
   width: 640px;
 }
 
+body.wide {
+  width:1024px;
+}
+
 .small { font-size: 11px; color: #999; }
 div.breaker { clear:both; }
+.template { display:none; }
 
 p, ul, ol, pre, blockquote, hr, object { margin: 1em 0; }
 pre, code, tt { font-family: monospace; }
@@ -20,15 +25,17 @@ hr { height:1px; border:none; background-color:#ddd; }
 
 h1,h2,h3,h4 {
   font-family: helvetica, sans-serif;
-  color:#333;
+  color:#040404;
   margin: 1.618em 0 1em 0;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizelegibility;
 }
-h1,h3 { font-size: 16px; }
+h1,h3 { font-size: 22px; }
 h2 { font-size: 18px; }
 h4 { font-size: 14px; color:#666; }
 h5,h6 { font-size:12px; color:#888; }
+
+body.wide h1 { font-size:22px; }
 
 a { text-decoration:none; }
 a:link, a:active { color:#316d96; }
@@ -53,17 +60,20 @@ header {
   /*margin-left:-999em; margin-right:-999em;
   padding-left:999em; padding-right:999em;*/
   margin-left:-999em; padding-left:999em;
-  padding-top:1em;
+  padding-top:1px;
   padding-bottom:0;
+  height:75px;
 }
-  header p.description {
-    font:9px 'lucida grande', 'tahoma', sans-serif;
+  header h1 { display:block; height:31px; }
+  header h1 img { display:block; height:31px; }
+  header {
+    font: 9px/9px 'lucida grande', 'tahoma', sans-serif;
     color: #ccc;
   }
   header ul.navigation {
     text-align: left;
     float: right;
-    margin-top:37px;
+    margin-top:52px;
   }
   header ul.navigation li {
     display: inline-block;
@@ -76,7 +86,8 @@ header {
     text-decoration: none;
     font-size: 11px;
   }
-  header ul.navigation li a:hover { color: #000; }
+  header ul.navigation li a:hover { color: black; text-decoration: none; }
+  header ul.navigation li a.active { font-weight:bold; color:black; }
 
 /* main */
 #main { margin-bottom: 3em; }
@@ -122,14 +133,14 @@ body div.content {}
 
 /* posts */
 div.post {
-  border-bottom: 1px dashed #ddd;
+  border-bottom: 2px solid #ddd;
   margin-top: 1.5em; margin-bottom: 1.5em;
-  margin-left:-999em; padding-left:999em;
+  padding-bottom: 2em;
+  margin-left:-9000px; padding-left:9000px;
   page-break-before: always;
 }
   div.post.single, div.post:last-child { border-bottom:none; }
   div.post h1:first-child { margin-top:0; }
-  div.post.single h1:first-child { font-size:22px; }
   div.post h2.title { font-size:22px; }
   div.post postamble {
     display:block;

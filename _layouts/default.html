@@ -5,7 +5,7 @@
     <title>{% if page.title %}{{ page.title }} &mdash; {% endif %}Rasmus Andersson</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     {% if page.title != "Archive (sidebar)" %}
-    <meta name="viewport" content="width=700">
+    <meta name="viewport" content="width={% if page.wide_layout %}1100{% else %}700{% endif %}">
     {% endif %}
     <link rel="stylesheet" media="screen, projection" href="/res/screen.css" type="text/css">
     <link rel="stylesheet" media="print" href="/res/print.css" type="text/css">
@@ -24,24 +24,30 @@
     {% if page.title != "Archive (sidebar)" %}
     {% include sidebar_ui_controller.html %}
     {% endif %}
+    {% if page.include_move %}
+    <script src="http://movelang.org/move.js"></script>
+    {% endif %}
   </head>
-  <body>
+  <body{% if page.wide_layout %} class="wide"{% endif %}>
     <iframe id="sidebar"></iframe>
     <header>
       <ul class="navigation">
-        <li><a href="/archive/" title="Archived articles">Archive</a></li>
-        <li><a href="/projects/" title="Projects I am or was involved in">Projects</a></li>
-        <li><a href="/about/">About me</a></li>
+        <li><a href="/photos/"{% if page.url contains "/photos/" %}class="active"{% endif %} title="A selection of recent photography">Photography</a></li>
+        <li><a href="/projects/"{% if page.url contains "/projects/" %}class="active"{% endif %} title="Projects I am or was involved in">Projects</a></li>
+        <li><a href="/archive/"{% if page.url contains "/archive/" %}class="active"{% endif %} title="Archived articles">Archive</a></li>
+        <li><a href="/about/"{% if page.url contains "/about/" %}class="active"{% endif %}>About me</a></li>
       </ul>
       <h1><a href="/"><img src="/res/signature.png" width="81" height="31" alt="Signature"></a></h1>
     </header>
     <div class="wrapper content">
       {{ content }}
     </div>
+    
     {% if page.fb_comments %}
     <h2>Comments</h2>
     <div id="fb-root"></div><script>var s;if(document.location.hostname === 'rsms.me')s=document.createElement('script');s.async=true;s.src="http://connect.facebook.net/en_US/all.js#appId=38027689216&xfbml=1";document.getElementsByTagName('head')[0].appendChild(s);</script><fb:comments href="http://rsms.me{{ page.url }}" num_posts="{{ page.fb_comments }}" width="640"></fb:comments>
     {% endif %}
+    
     {% if paginator.page %}
     <div id="paginator">
       {% if paginator.next_page %}
@@ -52,6 +58,8 @@
       {% endif %}
     </div>
     {% endif %}
+    
+    {% unless page.no_footer %}
     <footer>
       <form action="http://www.google.com/cse" id="cse-search-box">
         <p>
@@ -64,6 +72,8 @@
       </form>
       <script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
     </footer>
+    {% endunless %}
+    
     {% include prettify.html %}
     {% include analytics.html %}
     <div id="carbonads-container"><div class="carbonad"><div id="azcarbon"></div><script type="text/javascript">if(document.location.hostname === 'rsms.me'){var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = "http://engine.carbonads.com/z/12122/azcarbon_2_1_0_VERT"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);}</script></div></div>
