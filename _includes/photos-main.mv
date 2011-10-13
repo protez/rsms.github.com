@@ -122,8 +122,8 @@ loadHighResolutionImage = ^(url, callback) {
 
 # Resize a photo view according to the current window size
 resizePhotoView = ^(photoView) {
-  width = photoView.model.width_l
-  height = photoView.model.height_l
+  width = photoView.model.width_l || photoView.model.width_o
+  height = photoView.model.height_l || photoView.model.height_o
   if (window.innerHeight < height) {
     r = width / height
     height = window.innerHeight
@@ -150,7 +150,7 @@ createPhotoView = ^(photo) {
   a.href = 'http://www.flickr.com/photos/rsms/'+photo.id+'/'
   
   img = view.querySelector 'img'
-  img.src = photo.url_l
+  img.src = photo.url_l || photo.url_o
   
   view.displayHighResolution = ^{
     loadHighResolutionImage photo.url_o, ^(err, image) {
@@ -160,7 +160,7 @@ createPhotoView = ^(photo) {
     }
   }
   view.displayLowResolution = ^{
-    img.src = photo.url_l
+    img.src = photo.url_l || photo.url_o
   }
   
   resizePhotoView view
@@ -450,8 +450,8 @@ if (window.requestAnimationFrame != undefined) {
 animationStartTime = ^{ (new Date).getTime() }
 
 # Jump to next/prev
-jumpToTop = ^{
-  scrollWithAnimationToYPosition 0, 700
+jumpToTop = ^(duration) {
+  scrollWithAnimationToYPosition 0, duration || 700
 }
 jumpToBottom = ^{
   scrollWithAnimationToYPosition document.body.scrollHeight - window.innerHeight, 700
@@ -481,6 +481,17 @@ jumpToPreviousPhoto = ^{
     scrollWithAnimationToYPosition absoluteYPosition(info.photoView), (info.wrapAround ? 1000 : 200)
   } else {
     jumpToTop()
+  }
+}
+
+document.getElementById('photos-jump-to-top-link').addEventListener 'click', ^(ev) {
+  if (!ev.metaKey && !ev.altKey && !ev.ctrlKey) {
+    jumpToTop 2000
+    ev.preventDefault()
+    ev.stopPropagation()
+    false
+  } else {
+    true
   }
 }
 
@@ -530,15 +541,39 @@ window.addEventListener 'resize', ^{
   }
 }
 
+if (document.location.hash && document.location.hash != '#') {
+  initialLocationHash = document.location.hash[1:]
+  window.addEventListener 'load', ^{
+    if (photoView = document.getElementById 'photo-'+initialLocationHash) {
+      scrollWithAnimationToYPosition absoluteYPosition(photoView), 700
+    }
+    initialLocationHash = null
+  }
+}
+
+scrollIsAtTopOrbottomOfDocument = ^{
+  return document.body.scrollTop < 20
+      || document.body.scrollTop > (document.body.scrollHeight - window.innerHeight)-20
+}
+
 # Scroll snap
 snapTimer = null
+urlHashUpdateTimer = null
 snapTrigger = ^{
+  clearInterval urlHashUpdateTimer
   clearInterval snapTimer
+  if (!initialLocationHash) {
+    urlHashUpdateTimer = after {delay:100} ^{
+      if (scrollIsAtTopOrbottomOfDocument()) {
+        document.location.hash = ''
+      } else if (currentPhotoView = currentlyFocusedPhotoView {threshold:0.5}) {
+        document.location.hash = currentPhotoView.model.id
+      }
+    }
+  }
   if (scrollAnimationCurrentTargetY == null) {
     snapTimer = after {delay:500} ^{
-      if (   scrollAnimationCurrentTargetY != null
-          || document.body.scrollTop < 20
-          || document.body.scrollTop > (document.body.scrollHeight - window.innerHeight)-20) {
+      if (scrollAnimationCurrentTargetY != null || scrollIsAtTopOrbottomOfDocument()) {
         return
       }
       if (currentPhotoView = currentlyFocusedPhotoView{threshold:0.5}) {
