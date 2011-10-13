@@ -15,11 +15,14 @@
     <meta property="fb:app_id" content="38027689216">
     {% if page.title %}
     <meta property="og:title" content="{{ page.title }}">
+      {% if page.description %}
+      <meta name="description" content="{{ page.description }}">
+      {% endif %}
     {% else %}
     <meta property="og:image" content="http://rsms.me/res/signature.png">
     <meta name="description" content="Ramblings by Rasmus Andersson -- a Swedish designer with a passion for technology">
     {% endif %}
-    <meta property="og:url" content="http://rsms.me{{ page.url }}">
+    <meta property="og:url" content="http://rsms.me{{ page.url | remove_first:'index.html' }}">
     <meta property="og:site_name" content="rsms.me">
     {% if page.title != "Archive (sidebar)" %}
     {% include sidebar_ui_controller.html %}
