@@ -1,0 +1,559 @@
+#pragma enable ehtml
+
+if (typeof XMLHttpRequest == 'undefined' || !document.querySelector) {
+  return document.body.appendChild document.createTextNode 'Your browser does not support loading these photos'
+}
+
+# Local storage
+Storage = null
+if (window.localStorage) {
+  Storage = {
+    get: ^{ try { return JSON.parse window.localStorage.getItem arguments[0] }catch(e){} },
+    set: ^{ window.localStorage.setItem arguments[0], JSON arguments[1] },
+    remove: ^{ window.localStorage.removeItem arguments[0] },
+    clear: ^{ window.localStorage.clear() },
+  }
+} else {
+  Storage = {get:^{},set:^{},remove:^{},clear:^{}}
+}
+
+# Mapping photo id -> active view
+photoIdToView = {}
+  
+flickrAPI_GET = ^(methodName, queryString, callback) {
+  url = 'http://api.flickr.com/services/rest/?method='+methodName+
+    '&api_key=76fe2f0ecd59a2418866fcae11799813'+
+    '&format=json'+
+    '&nojsoncallback=1'+(queryString || '')
+
+  xhr = new XMLHttpRequest()
+  xhr.onreadystatechange = ^() {
+    if (xhr.readyState != 4) return
+    if (xhr.status == 0) {
+      callback Error 'XHR failed with null status'
+    } else {
+      rsp = JSON.parse xhr.responseText
+      if (!rsp.stat) {
+        callback Error 'Unspecified error'
+      } else if (rsp.stat != 'ok') {
+        callback Error 'Remote error '+rsp.code+': '+rsp.message
+      } else {
+        callback null, rsp
+      }
+    }
+  };
+  xhr.open 'GET', url
+  xhr.send null
+  xhr
+}
+
+# Fetch pages of photos
+fetchPhotos = ^(callback) {
+  params = 
+    '&photoset_id=72157627881546194'+
+    '&media=photos'+
+    '&extras=views%2Cdate_upload%2Cdescription%2Clast_update%2Curl_o%2Cdate_taken%2Cgeo%2Curl_l'+
+    '&per_page=500'
+  flickrAPI_GET 'flickr.photosets.getPhotos', params, callback
+}
+
+# Views
+photoListView = document.getElementById 'photos'
+groupTemplate = <div class="group"></div>
+photoViewTemplate = <photo>
+  <a href="#" target="_blank"><img src="#"/></a>
+  <p class="meta">
+    <span class="title"></span><span class="separator"> — </span><span class="description"></span><span class="location"></span>
+  </p>
+</photo>
+
+
+# Loading images with low priority (sequential)
+imageLoadQueue = []
+resizingCanvas = document.createElement 'canvas'
+resizingCanvas.width = window.screen.width
+resizingCanvas.height = window.screen.height
+resizeImageIfNeeded = ^(image) {
+  cw = resizingCanvas.width
+  ch = resizingCanvas.height
+  iw = image.width
+  ih = image.height
+  
+  if (iw <= cw && ih <= ch)
+    return image.src
+  
+  g = resizingCanvas.getContext '2d'
+  
+  scale = Math.min(cw / iw, ch / ih)
+  dw = Math.round iw * scale
+  dh = Math.round ih * scale
+  
+  try {
+    g.drawImage image, 0, 0, dw, dh
+    return resizingCanvas.toDataURL 'image/jpeg'
+  } catch (e) {
+    return image.src
+  }
+}
+loadNextImage = ^{
+  if (imageLoadQueue.length == 0)
+    return
+  job = imageLoadQueue[0]
+  im = new Image()
+  im.onload = ^{
+    imageLoadQueue.shift()
+    #job.callback null, resizeImageIfNeeded im
+    job.callback null, im.src
+    loadNextImage()
+  }
+  im.onerror = ^{
+    imageLoadQueue.shift()
+    job.callback Error 'Failed to load image'
+    loadNextImage()
+  }
+  im.src = job.url
+  im
+}
+loadHighResolutionImage = ^(url, callback) {
+  imageLoadQueue.push({url:url, callback:callback})
+  if (imageLoadQueue.length == 1)
+    loadNextImage()
+}
+
+# Resize a photo view according to the current window size
+resizePhotoView = ^(photoView) {
+  width = photoView.model.width_l
+  height = photoView.model.height_l
+  if (window.innerHeight < height) {
+    r = width / height
+    height = window.innerHeight
+    width = Math.round height * r
+  }
+  photoView.style.width = width+'px'
+  photoView.style.height = window.innerHeight+'px'
+  
+  img = photoView.querySelector 'img'
+  img.style.width = width+'px'
+  img.style.height = height+'px'
+  img.style.marginLeft = Math.round((document.body.clientWidth - width)/2)+'px'
+  img.style.marginTop = Math.round((window.innerHeight - height)/2)+'px'
+}
+
+# Create a photo view
+createPhotoView = ^(photo) {
+  view = photoViewTemplate.cloneNode true
+  view.model = photo
+  view.id = 'photo-'+photo.id
+  #view.title = 'Has '+photo.views+' views on Flickr and was taken '+photo.datetaken+' UTC'
+  
+  a = view.querySelector 'a'
+  a.href = 'http://www.flickr.com/photos/rsms/'+photo.id+'/'
+  
+  img = view.querySelector 'img'
+  img.src = photo.url_l
+  
+  view.displayHighResolution = ^{
+    loadHighResolutionImage photo.url_o, ^(err, image) {
+      if (err) return print 'Failed to load image '+photo.url_o, err
+      print 'loaded high-res image'
+      img.src = image.src
+    }
+  }
+  view.displayLowResolution = ^{
+    img.src = photo.url_l
+  }
+  
+  resizePhotoView view
+
+  metaDataCount = 0
+  
+  title = view.querySelector '.title'
+  if (photo.title && photo.title.replace(/[^a-z0-9]/gi, '') != '') {
+    title.innerText = photo.title
+    ++metaDataCount
+  } else {
+    title.parentNode.removeChild title
+  }
+  
+  description = view.querySelector '.description'
+  if (   photo.description
+      && photo.description._content
+      && photo.description._content.replace(/[^a-z0-9]/gi, '') != '') {
+    description.innerHTML = photo.description._content
+    ++metaDataCount
+  } else {
+    description.parentNode.removeChild description
+  }
+  
+  if (metaDataCount < 2) {
+    separator = view.querySelector '.meta .separator'
+    separator.parentNode.removeChild separator
+  }
+
+  location = view.querySelector '.location'
+  if (photo.location) {
+    mapURL = 'http://maps.google.com/maps?q='+photo.latitude+','+photo.longitude+
+             '&sll='+photo.latitude+','+photo.longitude
+    location.innerHTML = '&nbsp;'.repeat(metaDataCount)
+    location.appendChild(<a href="{mapURL}" target="_blank"><img src="/res/location-18.png"/> {photo.location._content}</a>)
+    ++metaDataCount
+  } else {
+    location.parentNode.removeChild location
+  }
+  
+  # Add class "with-metadata" if there's any metadata
+  if (metaDataCount) {
+    view.className += ' with-metadata'
+  }
+  
+  view
+}
+
+photoViewForPhotoId = ^(photoId) {
+  document.getElementById 'photo-'+photoId
+}
+
+# Prepend a node to another node
+nodePrepend = ^(parent, child) {
+  if (parent.childNodes.length) {
+    parent.insertBefore child, parent.firstChild
+  } else {
+    parent.appendChild child
+  }
+}
+
+# Update a photo view
+updatePhotoView = ^(existingView, photo) {
+  newView = createPhotoView photo
+  photoIdToView[photo.id] = newView
+  existingView.parentNode.replaceChild newView, existingView
+}
+
+# Remove a photo
+removePhotoViewForPhotoId = ^(photo) {
+  if (photoView = photoViewForPhotoId photo.id) {
+    photoView.parentNode.removeChild photoView
+  }
+}
+
+# Add and display photos
+presentPhotos = ^(photos) {
+  group = groupTemplate.cloneNode true
+  
+  photos.slice().reverse().forEach ^(photo) {
+    photoView = createPhotoView photo
+    photoIdToView[photo.id] = photoView
+    group.appendChild photoView
+  }
+  nodePrepend photoListView, group
+  after {delay:1} ^{ group.className += ' appear' }
+}
+
+# Cache convenience
+writeAllPhotosToCache = ^{
+  Storage.set 'photos-allPhotos', allPhotos.slice 0, 100
+}
+
+# Get cached?
+#Storage.clear()
+if ( (allPhotos = Storage.get 'photos-allPhotos') && Array.isArray(allPhotos) ) {
+  presentPhotos allPhotos
+} else {
+  allPhotos = []
+}
+
+fetchAndUpdateLocationForPhoto = ^(photo) {
+  if (!photo.place_id || (photo.location && photo.location.id == photo.place_id))
+    return
+  flickrAPI_GET 'flickr.places.getInfo', '&place_id='+photo.place_id, ^(err, rsp) {
+    if (err) return print 'Failed to fetch location info for photo', photo, err
+    
+    photo.location = rsp.place.locality
+    photo.location.id = rsp.place.place_id
+    
+    if (photoView = photoViewForPhotoId photo.id) {
+      updatePhotoView photoView, photo
+    }
+    
+    writeAllPhotosToCache()
+  }
+}
+
+# Fetch new photos
+fetchPhotos ^(err, rsp) {
+  if (err) throw err
+  print 'Flickr responded:', JSON.parse JSON rsp
+  
+  # Find new photos
+  allPhotosById = {}
+  allPhotos.forEach ^(photo) { allPhotosById[photo.id] = photo }
+  currentPhotosByIds = {}
+  modifiedPhotoCount = removedPhotoCount = 0
+  newPhotos = rsp.photoset.photo.filter ^(photo) {
+    if (existingPhoto = allPhotosById[photo.id]) {
+      currentPhotosByIds[photo.id] = existingPhoto
+      if (existingPhoto.lastupdate != photo.lastupdate) {
+        # Replace values of our photo data object
+        existingPhoto.forEach ^(k,v) { existingPhoto[k] = undefined }
+        extend existingPhoto, photo
+        ++modifiedPhotoCount
+        # Find the photo's view
+        if (photoView = photoViewForPhotoId photo.id) {
+          updatePhotoView photoView, photo
+        }
+        # Refresh location if needed
+        fetchAndUpdateLocationForPhoto photo
+      }
+      return false # exclude from newPhotos
+    } else {
+      currentPhotosByIds[photo.id] = photo
+      fetchAndUpdateLocationForPhoto photo
+      return true  # include in newPhotos
+    }
+  }
+  newPhotos.reverse()
+  
+  # Remove photos
+  allPhotos = allPhotos.filter ^(photo) {
+    if (!currentPhotosByIds[photo.id]) {
+      removePhotoViewForPhotoId photo
+      ++removedPhotoCount
+      return false
+    }
+    true
+  }
+  
+  # Present any new photos
+  if (newPhotos.length) {
+    print 'Found', newPhotos.length, 'new photos'
+    presentPhotos newPhotos
+    allPhotos = allPhotos.concat newPhotos
+  }
+  
+  # Write cache
+  if (newPhotos.length || modifiedPhotoCount || removedPhotoCount) {
+
+    # Sort
+    allPhotos = rsp.photoset.photo.map ^(photo) {
+      for (i = 0; i < allPhotos.length; ++i) {
+        photo2 = allPhotos[i]
+        if (photo2.id == photo.id) {
+          return photo2
+        }
+      }
+    }
+    allPhotos.reverse()
+    
+    writeAllPhotosToCache()
+  }
+}
+
+# Scroll animation support
+scrollAnimationCurrentTimerId = 0
+scrollAnimationCurrentTargetY = null
+scrollWithAnimationToYPosition = ^(targetY, duration:200) {
+  if (scrollAnimationCurrentTargetY == targetY)
+    return
+  timerId = ++scrollAnimationCurrentTimerId
+  scrollAnimationCurrentTargetY = targetY
+  
+  start = animationStartTime()
+  update = ^(timestamp) {
+    progress = (timestamp - start) / duration;
+    currentY = document.body.scrollTop
+    distanceToTarget = targetY - currentY
+    if (distanceToTarget != 0) {
+      if (progress < 0.1 || progress > 0.9) {
+        incrementInPixels = 1
+      } else {
+        incrementInPixels = progress > 0 ? Math.round(distanceToTarget * progress) : 1
+      }
+      if (timerId == scrollAnimationCurrentTimerId && progress < 1 && incrementInPixels != 0) {
+        document.body.scrollTop = currentY + incrementInPixels
+        requestAnimationFrame update
+        return
+      } else {
+        document.body.scrollTop = targetY
+      }
+    }
+    
+    # end animation
+    scrollAnimationCurrentTargetY = null
+  }
+  requestAnimationFrame update
+}
+
+currentScrollTop = ^{
+  scrollAnimationCurrentTargetY == null ? document.body.scrollTop : scrollAnimationCurrentTargetY
+}
+
+# Guess which photo is currenty in view
+currentlyFocusedPhotoView = ^(findPrevious:false, threshold:0.1){
+  viewportStartY = currentScrollTop()
+  centerPoint = {x:window.innerWidth/2, y:window.innerHeight * threshold}
+  photoView = document.elementFromPoint centerPoint.x, centerPoint.y
+  while (photoView && photoView.nodeName != 'PHOTO') { photoView = photoView.parentNode }
+  photoView
+}
+
+
+absoluteYPosition = ^(n) {
+  startY = n.offsetTop
+  while ((n = n.offsetParent) && (n.nodeType == Node.ELEMENT_NODE)) {
+    startY += n.offsetTop
+  }
+  startY
+}
+
+
+findNextOrPreviousPhoto = ^(findPrevious:false){
+  currentY = currentScrollTop()
+  if (currentY < 10) {
+    photo = allPhotos[allPhotos.length-1]
+  } else if (currentPhotoView = currentlyFocusedPhotoView()) {
+    prevPhoto = null
+    currentPhotoId = currentPhotoView.id.substr 6
+    wrapAround = false
+
+    for (i = 0; i < allPhotos.length; ++i) {
+      photo = allPhotos[i]
+      if (photo.id == currentPhotoId) {
+        photo = allPhotos[i+(findPrevious ? 1 : -1)]
+        break
+      }
+    }
+  }
+  
+  if (!photo && !findPrevious && currentY < window.innerHeight) {
+    # Case: top of page -- select first image
+    photo = allPhotos[allPhotos.length-1]
+  } else if (findPrevious && currentY == document.body.scrollHeight - window.innerHeight) {
+    # Case: at bottom of page -- select last image
+    photo = allPhotos[0]
+  }
+  
+  return { wrapAround: wrapAround,
+           photoView: photo && photoIdToView[photo.id] }
+}
+
+# Animation support
+aslice = Array.prototype.slice
+if (window.requestAnimationFrame != undefined) {
+  requestAnimationFrame = ^{ window.requestAnimationFrame.apply window, aslice.call arguments }
+} else if (window.mozRequestAnimationFrame != undefined) {
+  requestAnimationFrame = ^{ window.mozRequestAnimationFrame.apply window, aslice.call arguments }
+} else if (window.webkitRequestAnimationFrame != undefined) {
+  requestAnimationFrame = ^{ window.webkitRequestAnimationFrame.apply window, aslice.call arguments }
+} else {
+  requestAnimationFrame = ^(callback){ setTimeout ^{ callback((new Date).getTime()) }, 15 }
+}
+animationStartTime = ^{ (new Date).getTime() }
+
+# Jump to next/prev
+jumpToTop = ^{
+  scrollWithAnimationToYPosition 0, 700
+}
+jumpToBottom = ^{
+  scrollWithAnimationToYPosition document.body.scrollHeight - window.innerHeight, 700
+}
+jumpToFirstPhoto = ^{
+  if ((photo = allPhotos[allPhotos.length-1]) && (photoView = photoViewForPhotoId photo.id))
+    scrollWithAnimationToYPosition absoluteYPosition(photoView), 700
+  else
+    jumpToTop()
+}
+jumpToLastPhoto = ^{
+  if ((photo = allPhotos[0]) && (photoView = photoViewForPhotoId photo.id))
+    scrollWithAnimationToYPosition absoluteYPosition(photoView), 700
+  else
+    jumpToBottom()
+}
+jumpToNextPhoto = ^{
+  info = findNextOrPreviousPhoto {findPrevious:false}
+  if (info.photoView)
+    scrollWithAnimationToYPosition absoluteYPosition(info.photoView), (info.wrapAround ? 1000 : 200)
+  else
+    jumpToBottom()
+}
+jumpToPreviousPhoto = ^{
+  info = findNextOrPreviousPhoto {findPrevious:true}
+  if (info.photoView) {
+    scrollWithAnimationToYPosition absoluteYPosition(info.photoView), (info.wrapAround ? 1000 : 200)
+  } else {
+    jumpToTop()
+  }
+}
+
+# Key listeners
+if (document.elementFromPoint) {
+  window.addEventListener 'keydown', ^(ev) {
+    caught = false
+    if (ev.keyCode == 39 /*right*/ || ev.keyCode == 40 /*down*/) {
+      if (ev.metaKey || ev.altKey) {
+        jumpToLastPhoto()
+      } else {
+        jumpToNextPhoto()
+      }
+      caught = true
+    } else if (ev.keyCode == 37 /*left*/ || ev.keyCode == 38 /*up*/) {
+      if (ev.metaKey || ev.altKey) {
+        jumpToFirstPhoto()
+      } else {
+        jumpToPreviousPhoto()
+      }
+      caught = true
+    }
+    if (caught) {
+      ev.stopPropagation()
+      ev.preventDefault()
+      return false
+    }
+  }
+}
+
+# Resize photo views when window is resized
+resizeTimer = null
+prevWindowHeight = window.innerHeight
+window.addEventListener 'resize', ^{
+  clearTimeout resizeTimer
+  if (prevWindowHeight == window.innerHeight)
+    return
+  resizeTimer = after {delay:200} ^{
+    currentPhotoView = currentlyFocusedPhotoView()
+    Array.prototype.slice.call(document.querySelectorAll('photo')).forEach ^(photoView) {
+      resizePhotoView photoView
+    }
+    prevWindowHeight = window.innerHeight
+    if (currentPhotoView) {
+      after {delay:50} ^{ scrollWithAnimationToYPosition absoluteYPosition(currentPhotoView), 200 }
+    }
+  }
+}
+
+# Scroll snap
+snapTimer = null
+snapTrigger = ^{
+  clearInterval snapTimer
+  if (scrollAnimationCurrentTargetY == null) {
+    snapTimer = after {delay:500} ^{
+      if (   scrollAnimationCurrentTargetY != null
+          || document.body.scrollTop < 20
+          || document.body.scrollTop > (document.body.scrollHeight - window.innerHeight)-20) {
+        return
+      }
+      if (currentPhotoView = currentlyFocusedPhotoView{threshold:0.5}) {
+        scrollWithAnimationToYPosition absoluteYPosition(currentPhotoView), 200
+      }
+    }
+  }
+}
+window.addEventListener 'scroll', snapTrigger
+setInterval snapTrigger, 1000
+
+# Jump to first photo after page load
+/*initialBodyScrollTop = document.body.scrollTop
+after {delay:10000} ^{
+  # Trigger unless the user scrolled
+  if (initialBodyScrollTop == document.body.scrollTop)
+    jumpToNextPhoto()
+}*/
