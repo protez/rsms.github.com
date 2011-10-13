@@ -39,7 +39,12 @@ description: Select photography presented in a simple, dark fashion
     display: block;
     margin-bottom: 1em;
     position: relative;
+    visibility: hidden;
+    background:#111;
   }
+    #photos photo.woi-inside {
+      visibility: visible;
+    }
     #photos photo > a {
       display: block;
       position: absolute;
@@ -50,9 +55,14 @@ description: Select photography presented in a simple, dark fashion
     }
     #photos photo > a > img {
       display: block;
+      visibility: hidden;
       width:100%;
       height:100%;
     }
+    
+    #photos photo.loaded { background:inherit; }
+    #photos photo.loaded > a > img { visibility: visible; }
+    
     #photos photo .meta {
       display:none;
       position: absolute;

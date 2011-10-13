@@ -35,7 +35,7 @@ photoIdToView = {}
   
 flickrAPI_GET = ^(methodName, queryString, callback) {
   url = 'http://api.flickr.com/services/rest/?method='+methodName+
-    '&api_key=76fe2f0ecd59a2418866fcae11799813'+
+    '&api_key=adb4222b6011ba080f780b82d85837a5'+
     '&format=json'+
     '&nojsoncallback=1'+(queryString || '')
 
@@ -79,6 +79,16 @@ photoViewTemplate = <photo>
     <span class="title"></span><span class="separator"> — </span><span class="description"></span><span class="location"></span>
   </p>
 </photo>
+
+
+# Find absolute Y position
+absoluteYPositionOfElement = ^(n) {
+  startY = n.offsetTop
+  while ((n = n.offsetParent) && (n.nodeType == Node.ELEMENT_NODE)) {
+    startY += n.offsetTop
+  }
+  startY
+}
 
 
 # Loading images with low priority (sequential)
@@ -133,6 +143,19 @@ loadHighResolutionImage = ^(url, callback) {
     loadNextImage()
 }
 
+# Photo view: cache the absolute position
+photoView_cacheAbsolutePosition = ^{
+  @absoluteYPosition = absoluteYPositionOfElement this
+}
+
+photoView_setWindowOfInterestLocation = ^(locationName) {
+  @windowOfInterestLocation = locationName
+  className = 'woi-'+locationName
+  if (@className.indexOf(className) == -1) {
+    @className = @className.replace(/ woi-[^ ]+/g, '')+' '+className
+  }
+}
+
 # Resize a photo view according to the current window size
 resizePhotoView = ^(photoView) {
   width = photoView.model.width_l || photoView.model.width_o
@@ -150,11 +173,17 @@ resizePhotoView = ^(photoView) {
   img.style.height = height+'px'
   img.style.marginLeft = Math.round((document.body.clientWidth - width)/2)+'px'
   img.style.marginTop = Math.round((window.innerHeight - height)/2)+'px'
+  
+  photoView.cacheAbsolutePosition()
 }
 
 # Create a photo view
 createPhotoView = ^(photo) {
   view = photoViewTemplate.cloneNode true
+  
+  view.cacheAbsolutePosition = photoView_cacheAbsolutePosition
+  view.setWindowOfInterestLocation = photoView_setWindowOfInterestLocation
+  
   view.model = photo
   view.id = 'photo-'+photo.id
   #view.title = 'Has '+photo.views+' views on Flickr and was taken '+photo.datetaken+' UTC'
@@ -163,6 +192,10 @@ createPhotoView = ^(photo) {
   a.href = 'http://www.flickr.com/photos/rsms/'+photo.id+'/'
   
   img = view.querySelector 'img'
+  img.onload = ^{
+    print 'loaded'
+    view.className += ' loaded'
+  }
   img.src = photo.url_l || photo.url_o
   
   view.displayHighResolution = ^{
@@ -175,8 +208,6 @@ createPhotoView = ^(photo) {
   view.displayLowResolution = ^{
     img.src = photo.url_l || photo.url_o
   }
-  
-  resizePhotoView view
 
   metaDataCount = 0
   
@@ -219,6 +250,8 @@ createPhotoView = ^(photo) {
     view.className += ' with-metadata'
   }
   
+  resizePhotoView view
+  
   view
 }
 
@@ -240,25 +273,34 @@ updatePhotoView = ^(existingView, photo) {
   newView = createPhotoView photo
   photoIdToView[photo.id] = newView
   existingView.parentNode.replaceChild newView, existingView
+  newView.cacheAbsolutePosition()
 }
 
 # Remove a photo
 removePhotoViewForPhotoId = ^(photo) {
   if (photoView = photoViewForPhotoId photo.id) {
+    photoIdToView[photo.id] = undefined
     photoView.parentNode.removeChild photoView
+    forEachPhotoView ^(photoView) {
+      photoView.cacheAbsolutePosition()
+    }
   }
 }
 
 # Add and display photos
 presentPhotos = ^(photos) {
   group = groupTemplate.cloneNode true
+  photoViews = []
   
   photos.slice().reverse().forEach ^(photo) {
-    photoView = createPhotoView photo
+    photoViews.push photoView = createPhotoView photo
     photoIdToView[photo.id] = photoView
     group.appendChild photoView
   }
   nodePrepend photoListView, group
+  photoViews.forEach ^(photoView) {
+    photoView.cacheAbsolutePosition()
+  }
   after {delay:1} ^{ group.className += ' appear' }
 }
 
@@ -410,15 +452,6 @@ currentlyFocusedPhotoView = ^(findPrevious:false, threshold:0.1){
 }
 
 
-absoluteYPosition = ^(n) {
-  startY = n.offsetTop
-  while ((n = n.offsetParent) && (n.nodeType == Node.ELEMENT_NODE)) {
-    startY += n.offsetTop
-  }
-  startY
-}
-
-
 findNextOrPreviousPhoto = ^(findPrevious:false){
   currentY = currentScrollTop()
   if (currentY < 10) {
@@ -471,27 +504,27 @@ jumpToBottom = ^{
 }
 jumpToFirstPhoto = ^{
   if ((photo = allPhotos[allPhotos.length-1]) && (photoView = photoViewForPhotoId photo.id))
-    scrollWithAnimationToYPosition absoluteYPosition(photoView), 700
+    scrollWithAnimationToYPosition photoView.absoluteYPosition, 700
   else
     jumpToTop()
 }
 jumpToLastPhoto = ^{
   if ((photo = allPhotos[0]) && (photoView = photoViewForPhotoId photo.id))
-    scrollWithAnimationToYPosition absoluteYPosition(photoView), 700
+    scrollWithAnimationToYPosition photoView.absoluteYPosition, 700
   else
     jumpToBottom()
 }
 jumpToNextPhoto = ^{
   info = findNextOrPreviousPhoto {findPrevious:false}
   if (info.photoView)
-    scrollWithAnimationToYPosition absoluteYPosition(info.photoView), (info.wrapAround ? 1000 : 200)
+    scrollWithAnimationToYPosition info.photoView.absoluteYPosition, (info.wrapAround ? 1000 : 200)
   else
     jumpToBottom()
 }
 jumpToPreviousPhoto = ^{
   info = findNextOrPreviousPhoto {findPrevious:true}
   if (info.photoView) {
-    scrollWithAnimationToYPosition absoluteYPosition(info.photoView), (info.wrapAround ? 1000 : 200)
+    scrollWithAnimationToYPosition info.photoView.absoluteYPosition, (info.wrapAround ? 1000 : 200)
   } else {
     jumpToTop()
   }
@@ -535,6 +568,11 @@ if (document.elementFromPoint) {
   }
 }
 
+forEachPhotoView = ^{
+  a = Array.prototype.slice.call document.querySelectorAll 'photo'
+  Array.prototype.forEach.apply a, Array.prototype.slice.call arguments
+}
+
 # Resize photo views when window is resized
 resizeTimer = null
 prevWindowHeight = window.innerHeight
@@ -544,12 +582,12 @@ window.addEventListener 'resize', ^{
     return
   resizeTimer = after {delay:200} ^{
     currentPhotoView = currentlyFocusedPhotoView()
-    Array.prototype.slice.call(document.querySelectorAll('photo')).forEach ^(photoView) {
+    forEachPhotoView ^(photoView) {
       resizePhotoView photoView
     }
     prevWindowHeight = window.innerHeight
     if (currentPhotoView) {
-      after {delay:50} ^{ scrollWithAnimationToYPosition absoluteYPosition(currentPhotoView), 200 }
+      after {delay:50} ^{ scrollWithAnimationToYPosition currentPhotoView.absoluteYPosition, 200 }
     }
   }
 }
@@ -558,7 +596,7 @@ if (document.location.hash && document.location.hash != '#') {
   initialLocationHash = document.location.hash[1:]
   window.addEventListener 'load', ^{
     if (photoView = document.getElementById 'photo-'+initialLocationHash) {
-      scrollWithAnimationToYPosition absoluteYPosition(photoView), 700
+      scrollWithAnimationToYPosition photoView.absoluteYPosition, 700
     }
     initialLocationHash = null
   }
@@ -569,12 +607,55 @@ scrollIsAtTopOrbottomOfDocument = ^{
       || document.body.scrollTop > (document.body.scrollHeight - window.innerHeight)-20
 }
 
+# Finds which photos are in our window of interest
+photoViewsCurrentlyInWindowOfInterest = []
+windowOfInterestGrow = 1
+recalculatePhotosInFocusTimer = null
+recalculatePhotosInFocus = ^{
+  clearInterval recalculatePhotosInFocusTimer
+  photoViewsCurrentlyInWindowOfInterest = []
+  minY = 0
+  maxY = document.body.scrollHeight - window.innerHeight
+  scrollTop = document.body.scrollTop
+  windowHeight = window.innerHeight
+  windowOfInterestOffsetTop = Math.max minY, scrollTop - (windowHeight * windowOfInterestGrow)
+  windowOfInterestOffsetBottom = Math.min maxY, windowOfInterestOffsetTop + windowHeight + (windowHeight * (windowOfInterestGrow * 2))
+  #print 'windowOfInterest:', windowOfInterestOffsetTop, windowOfInterestOffsetBottom
+  for (i = allPhotos.length; --i != -1; ) {
+    photo = allPhotos[i]
+    photoView = photoIdToView[photo.id]
+    photoViewOffsetTop = photoView.absoluteYPosition
+    photoViewOffsetBottom = photoViewOffsetTop + photoView.clientHeight
+    if (photoViewOffsetBottom < windowOfInterestOffsetTop) {
+      photoView.setWindowOfInterestLocation 'above'
+      continue
+    }
+    if (photoViewOffsetTop > windowOfInterestOffsetBottom) {
+      photoView.setWindowOfInterestLocation 'below'
+      break
+    }
+    photoView.setWindowOfInterestLocation 'inside'
+    photoViewsCurrentlyInWindowOfInterest.push photoView
+  }
+}
+
+
 # Scroll snap
 snapTimer = null
 urlHashUpdateTimer = null
+recalculatePhotosInFocusLastScrollTop = -100
 snapTrigger = ^{
   clearInterval urlHashUpdateTimer
   clearInterval snapTimer
+  
+  # Photo in focus
+  if (Math.abs(document.body.scrollTop - recalculatePhotosInFocusLastScrollTop) > 10) {
+    recalculatePhotosInFocusLastScrollTop = document.body.scrollTop
+    recalculatePhotosInFocus()
+  } else {
+    recalculatePhotosInFocusTimer = after {delay:100} recalculatePhotosInFocus
+  }
+  
   if (!initialLocationHash) {
     urlHashUpdateTimer = after {delay:100} ^{
       if (scrollIsAtTopOrbottomOfDocument()) {
@@ -584,13 +665,14 @@ snapTrigger = ^{
       }
     }
   }
+  
   if (scrollAnimationCurrentTargetY == null) {
     snapTimer = after {delay:500} ^{
       if (scrollAnimationCurrentTargetY != null || scrollIsAtTopOrbottomOfDocument()) {
         return
       }
       if (currentPhotoView = currentlyFocusedPhotoView{threshold:0.5}) {
-        scrollWithAnimationToYPosition absoluteYPosition(currentPhotoView), 200
+        scrollWithAnimationToYPosition currentPhotoView.absoluteYPosition, 200
       }
     }
   }
