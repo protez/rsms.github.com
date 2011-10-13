@@ -82,10 +82,13 @@
     <script>
       if (window.navigator.userAgent.indexOf(' iOS ') != -1) {
         var className = 'ios';
+        window.rsmsHostIsIOS = 'generic';
         if (window.navigator.userAgent.indexOf(' iPad ') != -1) {
           className += ' ipad';
+          window.rsmsHostIsIOS = 'ipad';
         } else if (window.navigator.userAgent.indexOf(' iPhone ') != -1) {
           className += ' iphone';
+          window.rsmsHostIsIOS = 'iphone';
         }
         document.documentElement.className = className; // <html class="...
       }

@@ -1,7 +1,20 @@
 #pragma enable ehtml
+showIncompatibleMessage = ^(message) {
+  body = document.getElementById 'photos-body'
+  body.innerHTML = ''
+  body.appendChild(<p class="incompatible">{message}</p>)
+}
 
 if (typeof XMLHttpRequest == 'undefined' || !document.querySelector) {
-  return document.body.appendChild document.createTextNode 'Your browser does not support loading these photos'
+  showIncompatibleMessage 'Unsupported browser. Redirecting...'
+  document.location.href = 'http://www.flickr.com/photos/rsms/'
+  return
+}
+
+if (window.rsmsHostIsIOS) {
+  showIncompatibleMessage 'Touch screens are not yet supported. Redirecting...'
+  document.location.href = 'http://www.flickr.com/photos/rsms/'
+  return
 }
 
 # Local storage

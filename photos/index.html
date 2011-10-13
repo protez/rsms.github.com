@@ -18,6 +18,15 @@ description: Select photography presented in a simple, dark fashion
     header ul.navigation li a:hover { color: #fff; }
     header ul.navigation li a.active { color:white; font-weight:bold; }
   h1,h2,h3,h4 { color:#eee; }
+  
+  #photos-body .incompatible {
+    display: block;
+    margin: 0;
+    font: normal normal normal 40px/18px Helvetica, Arial, sans-serif;
+    color: #FFC2B6;
+    text-align:center;
+    padding:1em 0;
+  }
 
   #photos .group {
     -webkit-transition: opacity 600ms ease;
@@ -90,11 +99,13 @@ description: Select photography presented in a simple, dark fashion
 {% include photos-main.mv %}
 </script>
 <h1>Photography</h1>
-<p class="intro">
-  Use <img src="/res/downarrow.png" title="Press [down arrow] or [right arrow] to jump to the next picture"> and <img src="/res/uparrow.png" title="Press [up arrow] or [left arrow] to jump to the previous picture"> on your keyboard, or just scroll
-</p>
-<div id="photos">
-<p class="outro">
-  <a href="http://www.flickr.com/photos/rsms/">See more photos on Flickr &rarr;</a> &nbsp;&nbsp;or <a href="/photos/" id="photos-jump-to-top-link">start over &uarr;</a>
-</p>
+<div id="photos-body">
+  <p class="intro">
+    Use <img src="/res/downarrow.png" title="Press [down arrow] or [right arrow] to jump to the next picture"> and <img src="/res/uparrow.png" title="Press [up arrow] or [left arrow] to jump to the previous picture"> on your keyboard, or just scroll
+  </p>
+  <div id="photos">
+  </div>
+  <p class="outro">
+    <a href="http://www.flickr.com/photos/rsms/">See more photos on Flickr &rarr;</a> &nbsp;&nbsp;or <a href="/photos/" id="photos-jump-to-top-link">start over &uarr;</a>
+  </p>
 </div>
