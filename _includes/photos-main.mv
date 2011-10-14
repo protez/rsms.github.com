@@ -143,6 +143,20 @@ loadHighResolutionImage = ^(url, callback) {
     loadNextImage()
 }
 
+
+currentScrollTop = ^{
+  scrollAnimationCurrentTargetY == null ? document.body.scrollTop : scrollAnimationCurrentTargetY
+}
+
+# Guess which photo is currenty in view
+currentlyFocusedPhotoView = ^(findPrevious:false, threshold:0.1){
+  viewportStartY = currentScrollTop()
+  centerPoint = {x:window.innerWidth/2, y:window.innerHeight * threshold}
+  photoView = document.elementFromPoint centerPoint.x, centerPoint.y
+  while (photoView && photoView.nodeName != 'PHOTO') { photoView = photoView.parentNode }
+  photoView
+}
+
 # Photo view: cache the absolute position
 photoView_cacheAbsolutePosition = ^{
   @absoluteYPosition = absoluteYPositionOfElement this
@@ -280,10 +294,16 @@ updatePhotoView = ^(existingView, photo) {
 removePhotoViewForPhotoId = ^(photo) {
   if (photoView = photoViewForPhotoId photo.id) {
     photoIdToView[photo.id] = undefined
+    
+    currentPhotoView = currentlyFocusedPhotoView()
+    
     photoView.parentNode.removeChild photoView
     forEachPhotoView ^(photoView) {
       photoView.cacheAbsolutePosition()
     }
+    
+    if (currentPhotoView)
+      document.body.scrollTop = currentPhotoView.absoluteYPosition
   }
 }
 
@@ -297,10 +317,17 @@ presentPhotos = ^(photos) {
     photoIdToView[photo.id] = photoView
     group.appendChild photoView
   }
+  
+  currentPhotoView = currentlyFocusedPhotoView()
+  
   nodePrepend photoListView, group
   photoViews.forEach ^(photoView) {
     photoView.cacheAbsolutePosition()
   }
+  
+  if (currentPhotoView)
+    document.body.scrollTop = currentPhotoView.absoluteYPosition
+  
   after {delay:1} ^{ group.className += ' appear' }
 }
 
@@ -436,19 +463,6 @@ scrollWithAnimationToYPosition = ^(targetY, duration:200) {
     scrollAnimationCurrentTargetY = null
   }
   requestAnimationFrame update
-}
-
-currentScrollTop = ^{
-  scrollAnimationCurrentTargetY == null ? document.body.scrollTop : scrollAnimationCurrentTargetY
-}
-
-# Guess which photo is currenty in view
-currentlyFocusedPhotoView = ^(findPrevious:false, threshold:0.1){
-  viewportStartY = currentScrollTop()
-  centerPoint = {x:window.innerWidth/2, y:window.innerHeight * threshold}
-  photoView = document.elementFromPoint centerPoint.x, centerPoint.y
-  while (photoView && photoView.nodeName != 'PHOTO') { photoView = photoView.parentNode }
-  photoView
 }
 
 
