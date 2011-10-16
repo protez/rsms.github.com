@@ -6,6 +6,7 @@ title: Projects
 
 <small>*Not in any sane or particular order*</small>
 
+- [UILayer](http://rsms.me/uilayer/) — an API on top of the WebKit DOM for working with the concept of layers. High performance UI rendering and animation.
 - [Move](http://movelang.org/) — a simple programming language intended for the young generation
 - [Fnews](/projects/fnews/) — dust off your iPad and use it as a pretty Facebook news feed "photo frame"
 - [Kod](http://kodapp.com/) — programmers' editor for OS X
